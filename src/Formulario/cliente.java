@@ -458,8 +458,7 @@ public class cliente extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null,"Teléfono incompleto","¡Error!",JOptionPane.ERROR_MESSAGE);
         }else if(txtpais.getText().isEmpty()){
             JOptionPane.showMessageDialog(null,"Ingrese País","¡Error!",JOptionPane.ERROR_MESSAGE);
-        }
-        else if(txtciudad.getText().isEmpty()){
+        }else if(txtciudad.getText().isEmpty()){
             JOptionPane.showMessageDialog(null,"Ingrese ciudad","¡Error!",JOptionPane.ERROR_MESSAGE);
         }else if(n==1){
             try{

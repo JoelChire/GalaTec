@@ -42,8 +42,6 @@ public class venta extends javax.swing.JInternalFrame {
         java.util.Date fechaa = new java.util.Date();
         java.sql.Date fechasq1 = new java.sql.Date(fechaa.getTime());
         bandera_venta="bandera";
-        txtobservacion.setLineWrap(true);
-        txtobservacion.setWrapStyleWord(true);
         ////Tabla
         modelo= new DefaultTableModel();        
         modelo.addColumn("Nombres");
@@ -58,12 +56,9 @@ public class venta extends javax.swing.JInternalFrame {
         modelo.addColumn("Dirección");        
         this.tb_det.setModel(modelo);
         ///
-        spinner.setValue(0);
-        SpinnerNumberModel nm=new SpinnerNumberModel();
-        nm.setMaximum(10);
-        nm.setMinimum(0);
+        
         //nm.setStepSize(1);
-        spinner.setModel(nm);
+        
         ///
         limpiar();  
         btnnuevo();  
@@ -90,7 +85,6 @@ public class venta extends javax.swing.JInternalFrame {
         txtdni.setEditable(true);
         txtnombre.setEnabled(true);
         txtapellido.setEnabled(true);        
-        spinner.setEnabled(false);//spiner true
         txtnumeroha.setEnabled(false);
         txttipoha.setEnabled(false);
         txtnumeroca.setEnabled(false);
@@ -98,24 +92,17 @@ public class venta extends javax.swing.JInternalFrame {
         //
         txtidventa.setEnabled(false);
         txtllegada.setEnabled(false);
-        txtsalida.setEnabled(false);
-        txtusuario.setEnabled(false);
-        txtmonto.setEnabled(false);
-        txtobservacion.setEnabled(false);          
+                 
     }    
     void limpiar(){
         txtdni.setText("");
         txtnombre.setText("");
         txtapellido.setText("");
-        spinner.setValue(0);//spiner a 0
         txtnumeroha.setText("");
         txttipoha.setText("");
         txtnumeroca.setText("");
         obt_id(); 
         txtllegada.setText(fecha_actual());
-        txtusuario.setText(usuario_alquiler);
-        txtmonto.setText("");
-        txtobservacion.setText("");
         eliminarelementos();       
     }
     void eliminarelementos(){
@@ -302,9 +289,8 @@ public class venta extends javax.swing.JInternalFrame {
                         .addGap(33, 33, 33)
                         .addGroup(panel_dt_clienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtapellido1, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panel_dt_clienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtnombre, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
-                                .addComponent(txtapellido)))))
+                            .addComponent(txtnombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                            .addComponent(txtapellido, javax.swing.GroupLayout.Alignment.LEADING))))
                 .addGap(87, 87, 87))
         );
         panel_dt_clienteLayout.setVerticalGroup(
@@ -328,7 +314,7 @@ public class venta extends javax.swing.JInternalFrame {
                     .addComponent(lb_ape_alq)
                     .addComponent(txtapellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panel_dt_clienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(panel_dt_clienteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lb_ape_alq1)
                     .addComponent(txtapellido1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15))
@@ -719,7 +705,6 @@ public class venta extends javax.swing.JInternalFrame {
                 }else{
                     //desbloqueo
                     btnhuesped.setEnabled(false);
-                    spinner.setEnabled(true);//enabled spinner
                     txtdni.setEditable(false);
                     btnguardar.setEnabled(true);
                     //txtnumeroha.setEnabled(true);
@@ -752,7 +737,6 @@ public class venta extends javax.swing.JInternalFrame {
         // Boton explorar
         elegir_c=new elegir_cliente(this,true);
         elegir_c.setVisible(true);
-        spinner.setEnabled(true);//set enable spinner
         txtdni.setEditable(false);
         System.out.println("el ide huesped regresado: "+id_cliente_cliente);
     }//GEN-LAST:event_btnexplorarActionPerformed
@@ -769,20 +753,15 @@ public class venta extends javax.swing.JInternalFrame {
         btnexplorar.setEnabled(false);
         txtdni.setEditable(false);
 
-        totalpersonas=Integer.parseInt(spinner.getValue().toString());
         if(totalpersonas>0){
             cantidadpersonas=totalpersonas;
             seleccion_c=new seleccion_cliente(this,true);
             seleccion_c.setVisible(true);
-            spinner.setEnabled(false);//spinner desanilidado
             txtnumeroca.setEnabled(true);
             txtidventa.setEnabled(true);
             txtllegada.setEnabled(true);
-            txtsalida.setEnabled(true);
-            txtusuario.setEnabled(true);
-            txtmonto.setEnabled(true);
             btnguardar.setEnabled(true);
-            txtobservacion.setEnabled(true);
+            
         }else{
             JOptionPane.showMessageDialog(null,"Ingresa número válido de Personas","ERROR",JOptionPane.ERROR_MESSAGE);
         }
@@ -851,16 +830,10 @@ public class venta extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null,"Ingresa Cantidas de Personas","ERROR",JOptionPane.ERROR_MESSAGE);
         }else if (txtnumeroca.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null,"Ingresa Cantidad de camas","ERROR",JOptionPane.ERROR_MESSAGE);
-        }else if (txtmonto.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null,"Ingresa Monto Total","ERROR",JOptionPane.ERROR_MESSAGE);
         }else if(txtidventa.getText().isEmpty()){
             JOptionPane.showMessageDialog(null,"No existe ID_Alquiler","ERROR",JOptionPane.ERROR_MESSAGE);
         }else if (txtllegada.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null,"Error al Obtener Fecha de llegada","ERROR",JOptionPane.ERROR_MESSAGE);
-        }else if (txtsalida.getDate()==null) {
-            JOptionPane.showMessageDialog(null,"Ingresa Fecha Salida","ERROR",JOptionPane.ERROR_MESSAGE);
-        }else if (txtusuario.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null,"Error al obtener Usuario ","ERROR",JOptionPane.ERROR_MESSAGE);
         }else if(txttipoha.getText().isEmpty()){
             JOptionPane.showMessageDialog(null,"Elije habitacion","ERROR",JOptionPane.ERROR_MESSAGE);
         }else if((totalpersonas>1) && ((tb_det.getRowCount()+1)!=totalpersonas)){
@@ -870,30 +843,16 @@ public class venta extends javax.swing.JInternalFrame {
             SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date fech = new Date();
             String ll= myFormat.format(fech);
-            String sa = fecha.getFecha(txtsalida);
             double montoneto=0,intmonto=0;
             int numdias=0;
             try {
                 Date date1 = myFormat.parse(ll);
-                Date date2 = myFormat.parse(sa);
-                long diff = date2.getTime() - date1.getTime();
-                System.out.println ("Days: " + TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
-                String dias=String.valueOf(TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS));
-                numdias=Integer.parseInt(dias);
-
+                
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            intmonto=Double.parseDouble(txtmonto.getText());
             montoneto=numdias*intmonto;
             
-            Date fecha_salida=txtsalida.getDate();
-            fecha_salida.setHours(12);
-            fecha_salida.setSeconds(0);
-            fecha_salida.setMinutes(0);
-            SimpleDateFormat formatoFecha= new SimpleDateFormat("YYYY-MM-dd h:mm:ss"); 
-            String fechafinal= formatoFecha.format(fecha_salida);
-            System.out.println(fechafinal);  
             
             try
             {
@@ -903,16 +862,7 @@ public class venta extends javax.swing.JInternalFrame {
                 //pst.setString(1,txtnumeroha.getText());
                 pst.setString(1,txtidventa.getText());//id alquiler
                 pst.setString(2,id_cliente_cliente);
-                pst.setString(3,txtusuario.getText());
-                pst.setString(4,txtllegada.getText());
-                //pst.setString(5,fecha.getFecha(txtsalida));//fecha salida
-                pst.setString(5,fechafinal);//fecha salida
-                pst.setString(6,String.valueOf(numdias));//num dias// corregir
-                pst.setString(7,txtnumeroca.getText());//num camas
-                pst.setString(8,txtobservacion.getText());
-                pst.setString(9,String.valueOf(montoneto));//monto total, corregir!!
-                pst.setString(10,id_habitacion_seleccion);
-
+                
                 int a=pst.executeUpdate();
                 if(a>0){
                     System.out.println("Registro exitoso en Alquila");

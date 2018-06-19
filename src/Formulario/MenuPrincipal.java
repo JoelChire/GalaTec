@@ -82,8 +82,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         MPsalir = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
-        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jSeparator5 = new javax.swing.JPopupMenu.Separator();
@@ -191,7 +192,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem4);
-        jMenu2.add(jSeparator3);
+
+        jMenuItem5.setText("Clientes");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
 
         jMenuItem6.setText("Productos");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -200,6 +208,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem6);
+        jMenu2.add(jSeparator3);
 
         jMenuBar1.add(jMenu2);
 
@@ -399,7 +408,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 venta a= new venta();  
                 this.escritorio.add(a);
                 a.obtenerusuario(usuario_actual);
-                a.txtusuario.setText(usuario_actual);
+                //a.txtusuario.setText(usuario_actual);
                 a.setVisible(true);                
             }else{
                 JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!");
@@ -411,36 +420,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         // ventana de cobro diario
-        String bandera_cobro=cobro_diario.bandera_cobro;
-        try{            
-            if(bandera_cobro==null){            
-                cobro_diario a= new cobro_diario();
-                this.escritorio.add(a);
-                a.setVisible(true);            
-            }else{
-                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!");
-            }    
-        }catch(Exception e){
-            e.printStackTrace();    
-        }
+        
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         // ventana de cierre diario
-        String bandera=cierrediario.bandera_cierrediario;
-        try{            
-            if(bandera==null){            
-                cierrediario a= new cierrediario(); 
-                this.escritorio.add(a);
-                a.setVisible(true);            
-            }else{
-                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!");
-            }    
-        }catch(Exception e){
-            e.printStackTrace();    
-        }
+        
     }//GEN-LAST:event_jMenuItem11ActionPerformed
-    
+ 
     private void MPsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MPsalirActionPerformed
         // TODO add your handling code here:
         System.exit(0);
@@ -612,19 +599,21 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // ventana de habitacion
-        String bandera=habitacion.bandera_habitacion;
+        // ventana de productos
+        String bandera = productos.bandera_productos; //las banderas verifican si la ventana ya esta abierta
         try{
-            if(bandera==null){
-                habitacion a= new habitacion();
+            if(bandera == null){    //verificación de la bandera
+                //Si no hay una ventana abierta la abre
+                productos a = new productos();
                 this.escritorio.add(a);
                 a.setVisible(true);
             }else{
-                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!");
+                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!"); //muestra un mensaje si ya esta abierta la ventana
             }
         }catch(Exception e){
             e.printStackTrace();
         }
+        
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -646,67 +635,41 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
         // TODO add your handling code here:
-        String bandera=Huespedes_recepcionista.bandera_huesped_recepcionista;
-        try{
-            if(bandera==null){
-                Huespedes_recepcionista a=new Huespedes_recepcionista();
-                this.escritorio.add(a);
-                a.setVisible(true);
-            }else{
-                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!");
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        
     }//GEN-LAST:event_jMenuItem22ActionPerformed
 
     private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
         // Buscar habitacion
-        String bandera=visualizar_habitacion.bandera_visualizar_habitaciones;
-        try{
-            if(bandera==null){
-                visualizar_habitacion a= new visualizar_habitacion();
-                this.escritorio.add(a);
-                a.setVisible(true);
-            }else{
-                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!");
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        
     }//GEN-LAST:event_jMenuItem17ActionPerformed
 
     private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
         // Visualizar Alquileres
-        String bandera=visualizar_alquiler.bandera_visualizar_alquiler;
-        try{
-            if(bandera==null){
-                visualizar_alquiler a= new visualizar_alquiler();
-                this.escritorio.add(a);
-                a.setVisible(true);
-            }else{
-                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!");
-            }
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         // ventana de buscar huesped
-        String bandera=buscar_huesped.bandera_buscar_huesped;
+        
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // ventana de clientes
+        String bandera=cliente.bandera_cliente; //las banderas verifican si la ventana ya esta abierta
         try{
-            if(bandera==null){
-                buscar_huesped a= new buscar_huesped();
+            if(bandera==null){    //verificación de la bandera
+                //Si no hay una ventana abierta la abre
+                cliente a= new cliente();
                 this.escritorio.add(a);
                 a.setVisible(true);
             }else{
-                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!");
+                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!"); //muestra un mensaje si ya esta abierta la ventana
             }
         }catch(Exception e){
             e.printStackTrace();
         }
-    }//GEN-LAST:event_jMenuItem12ActionPerformed
+        
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -767,6 +730,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;

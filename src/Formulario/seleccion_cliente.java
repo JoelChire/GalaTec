@@ -206,7 +206,7 @@ public class seleccion_cliente extends javax.swing.JDialog {
                     ventas.id_habitacion_seleccion=idhab;
                     ventas.txtnumeroha.setText(nrohab);
                     ventas.txttipoha.setText(nom_tipo);
-                    ventas.txtmonto.setText(costo);
+                    //ventas.txtmonto.setText(costo);
                     ventas.txtnumeroca.setText(camas);
                     this.dispose();
                 }else{
