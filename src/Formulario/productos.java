@@ -28,7 +28,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author LENOVO
  */
-public class productos extends javax.swing.JFrame {
+public class productos extends javax.swing.JInternalFrame {
 
     Integer n=1;
 

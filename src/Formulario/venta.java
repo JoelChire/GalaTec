@@ -946,6 +946,18 @@ public class venta extends javax.swing.JInternalFrame {
 
     private void btnagregarpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarpActionPerformed
         // TODO add your handling code here:
+        String bandera=productos.bandera_productos;
+        try{
+            if(bandera==null){
+                productos a= new productos();
+                this.getDesktopPane().add(a);
+                a.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnagregarpActionPerformed
 
 
