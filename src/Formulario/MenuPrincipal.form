@@ -367,9 +367,13 @@
       <SubComponents>
         <Container class="jcMousePanel.jcMousePanel" name="jcMousePanel1">
           <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/Fondos/fond3.jpg"/>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="99" green="0" red="0" type="rgb"/>
             </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/Fondos/fondoazull.jpg"/>
+            </Property>
+            <Property name="inheritsPopupMenu" type="boolean" value="true"/>
           </Properties>
 
           <Layout>

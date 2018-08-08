@@ -204,10 +204,10 @@ public class seleccion_cliente extends javax.swing.JDialog {
                     }
                     //
                     ventas.id_habitacion_seleccion=idhab;
-                    ventas.txtnumeroha.setText(nrohab);
-                    ventas.txttipoha.setText(nom_tipo);
+                    ventas.txtcodigo.setText(nrohab);
+                    ventas.txtnombrep.setText(nom_tipo);
                     //ventas.txtmonto.setText(costo);
-                    ventas.txtnumeroca.setText(camas);
+                    ventas.txtcantidad.setText(camas);
                     this.dispose();
                 }else{
                     JOptionPane.showMessageDialog(null, "Seleccionar habitacion disponible");
