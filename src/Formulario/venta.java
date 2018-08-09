@@ -30,6 +30,7 @@ public class venta extends javax.swing.JInternalFrame {
 
     public static seleccion_cliente seleccion_c;
     public static elegir_cliente elegir_c;
+    public static elegir_producto elegir_p;
     DefaultTableModel modelo;
     Conectar cc=new Conectar();
     Connection cn=cc.conexion();
@@ -171,7 +172,7 @@ public class venta extends javax.swing.JInternalFrame {
         lbl_image = new javax.swing.JLabel();
         btnagregarp = new javax.swing.JButton();
         txtdescripcion = new javax.swing.JTextField();
-        btnexplorar1 = new javax.swing.JButton();
+        btnexplorar_producto = new javax.swing.JButton();
         txtcantidad = new javax.swing.JTextField();
         btnhuesped1 = new javax.swing.JButton();
         lb_num_camas_hab_alq1 = new javax.swing.JLabel();
@@ -376,12 +377,12 @@ public class venta extends javax.swing.JInternalFrame {
         txtdescripcion.setEditable(false);
         txtdescripcion.setFont(new java.awt.Font("URW Gothic L", 0, 12)); // NOI18N
 
-        btnexplorar1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnexplorar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/EXPLORAR1.PNG"))); // NOI18N
-        btnexplorar1.setText("Explorar");
-        btnexplorar1.addActionListener(new java.awt.event.ActionListener() {
+        btnexplorar_producto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnexplorar_producto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/EXPLORAR1.PNG"))); // NOI18N
+        btnexplorar_producto.setText("Explorar");
+        btnexplorar_producto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnexplorar1ActionPerformed(evt);
+                btnexplorar_productoActionPerformed(evt);
             }
         });
 
@@ -451,7 +452,7 @@ public class venta extends javax.swing.JInternalFrame {
                             .addGroup(panel_dt_productoLayout.createSequentialGroup()
                                 .addComponent(btnbuscar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnexplorar1))
+                                .addComponent(btnexplorar_producto))
                             .addComponent(btnhuesped1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
@@ -471,7 +472,7 @@ public class venta extends javax.swing.JInternalFrame {
                     .addGroup(panel_dt_productoLayout.createSequentialGroup()
                         .addGroup(panel_dt_productoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnbuscar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnexplorar1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                            .addComponent(btnexplorar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnhuesped1)))
                 .addGap(18, 18, 18)
@@ -732,11 +733,13 @@ public class venta extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null,"Ingrese DNI Completo");
             txtnombre.setText(null);
             txtapellido.setText(null);
+            txtciudad.setText(null);
         }
         else
         {
             txtnombre.setText(null);
             txtapellido.setText(null);
+            txtciudad.setText(null);
             String dni= (txtdni.getText());
             try{
                 ResultSet rs1;
@@ -805,7 +808,7 @@ public class venta extends javax.swing.JInternalFrame {
             String cod= (txtcodigo.getText());
             try{
                 ResultSet rs1;
-                PreparedStatement pst=cn.prepareStatement("SELECT nombre,descripcion,precio,precioxmayor,imagen "
+                PreparedStatement pst=cn.prepareStatement("SELECT nombre,descripcion,stock,precio,precioxmayor,imagen "
                     + "FROM productos where cod_producto='"+cod+"'");
                 rs1 = pst.executeQuery();//buscando datos y guardando en interfaz
                 while(rs1.next()){
@@ -813,6 +816,7 @@ public class venta extends javax.swing.JInternalFrame {
                     txtcantidad.setEnabled(true);
                     txtcantidad.setEditable(true);
                     txtdescripcion.setText(rs1.getString("descripcion"));
+                    txtstock.setText(rs1.getString("stock"));
                     ByteArrayOutputStream ouput = new ByteArrayOutputStream();
                     InputStream isdatos = rs1.getBinaryStream("imagen");
                     int temp=isdatos.read();
@@ -919,109 +923,8 @@ public class venta extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null,"Elije habitacion","ERROR",JOptionPane.ERROR_MESSAGE);
         }else if((totalpersonas>1) && ((tb_det.getRowCount()+1)!=totalpersonas)){
             JOptionPane.showMessageDialog(null,"Completa la Tabla de Huespedes en esta habitación","ERROR",JOptionPane.ERROR_MESSAGE);
-        }else
-        {
-            SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date fech = new Date();
-            String ll= myFormat.format(fech);
-            double montoneto=0,intmonto=0;
-            int numdias=0;
-            try {
-                Date date1 = myFormat.parse(ll);
-                
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            montoneto=numdias*intmonto;
-            
-            
-            try
-            {
-                PreparedStatement pst=cn.prepareStatement("INSERT INTO alquila(id_alquila,huesped_id_huesped,"
-                    + "usuario_id_usuario,fecha_llegada,fecha_salida,num_dias,num_camas,observacion,monto_total,"
-                    + "habitacion_id_habitacion) VALUES (?,?,?,?,?,?,?,?,?,?)");
-                //pst.setString(1,txtnumeroha.getText());
-                pst.setString(1,txtidventa.getText());//id alquiler
-                pst.setString(2,id_cliente_cliente);
-                
-                int a=pst.executeUpdate();
-                if(a>0){
-                    System.out.println("Registro exitoso en Alquila");
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"Error al agregar en Alquila ","Error",1);
-                }
-                //
-                //String habb=txtnumeroha.getText();
-                PreparedStatement pst1=cn.prepareStatement("UPDATE habitacion"
-                    + " SET estado='Ocupado' WHERE id_habitacion='"+id_habitacion_seleccion+"'");
-                int b=pst1.executeUpdate();
-                if(b>0){
-                    System.out.println("Actualizacion exitosa en Habitacion");
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"Error al actualizar habitación ","Error",1);
-                }
-                int c=1;
-                ////  actualizar tabla detalle
-                if(totalpersonas>1)
-                {
-                    c=0;//sirve para dar mensaje de confirmacion
-                    try
-                    {
-                        String id="";
-                        ResultSet rsa;
-                        int cont;
-                        for(int i=0;i<tb_det.getRowCount();i++)
-                        {
-                            Statement sent = cn.createStatement();
-                            rsa = sent.executeQuery("SELECT IFNULL(MAX(CAST(id_detalle AS UNSIGNED)), 0) codigoExterno FROM detalle_alquila");
-                            while(rsa.next()){
-                                cont =Integer.parseInt(rsa.getString("codigoExterno"))+1;
-                                id=(String.valueOf(cont));
-                            }/////detalle de alquiler
-                            PreparedStatement pst2=cn.prepareStatement("INSERT INTO detalle_alquila"
-                                + "(id_detalle,Nombres,Apellidos,dni,nacimiento,ciudad,estado_civil,pais,telefono,"
-                                + "ocupacion,direccion,alquila_id_alquila) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
-                            /*Nombres,Apellidos,DNI,Fecha Nacimiento,Ciudad,Estado Civil,País,Teléfono,Ocupacion,Dirección*/
-                            pst2.setString(1,id);// id detalle
-                            pst2.setString(2,tb_det.getValueAt(i,0).toString());//nombre
-                            pst2.setString(3,tb_det.getValueAt(i,1).toString());//apellido
-                            pst2.setString(4,tb_det.getValueAt(i,2).toString());//dni
-                            pst2.setString(5,tb_det.getValueAt(i,3).toString());//
-                            pst2.setString(6,tb_det.getValueAt(i,4).toString());//
-                            pst2.setString(7,tb_det.getValueAt(i,5).toString());//estado civil
-                            pst2.setString(8,tb_det.getValueAt(i,6).toString());//
-                            pst2.setString(9,tb_det.getValueAt(i,7).toString());//telefono
-                            pst2.setString(10,tb_det.getValueAt(i,8).toString());//
-                            pst2.setString(11,tb_det.getValueAt(i,9).toString());//direccion
-                            pst2.setString(12,txtidventa.getText());//id alquiler
-                            c=pst2.executeUpdate();
-                            if(c>0){
-                                System.out.println("Registro exitoso en detalle_alquiler");
-                            }
-                            else{
-                                JOptionPane.showMessageDialog(null,"Error al agregar ","Error",1);
-                            }
-                        }//fin for
-                    } catch (Exception e) {
-                        System.out.println("no se pudo actualizar detalle alquiler: "+e.getMessage());
-                    }//fin trycatch
-                }// fin if para detalle alquiler
-                if((a>0)&&(b>0)&&(c>0)){
-                    JOptionPane.showMessageDialog(null,"Registro Exitoso","FELICITACIONES",JOptionPane.INFORMATION_MESSAGE);
-                }
-                else{
-                    JOptionPane.showMessageDialog(null,"Error al agregar ");
-                }
-                btnnuevo();
-                eliminarelementos();
-                bloqueorestantes();///fin de todos los insert
-
-            }catch(HeadlessException | SQLException e){
-                JOptionPane.showMessageDialog(null, "error al agegar datos en alquila y detalle " +e);
-            }//fin trycatch
-        }//fn else
+        }
+        //fn else
         ///
     }//GEN-LAST:event_btnguardarActionPerformed
 
@@ -1030,9 +933,10 @@ public class venta extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_btnagregarpActionPerformed
 
-    private void btnexplorar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexplorar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnexplorar1ActionPerformed
+    private void btnexplorar_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexplorar_productoActionPerformed
+        elegir_p=new elegir_producto(this,true);
+        elegir_p.setVisible(true);
+    }//GEN-LAST:event_btnexplorar_productoActionPerformed
 
     private void btnhuesped1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhuesped1ActionPerformed
         // TODO add your handling code here:
@@ -1052,11 +956,11 @@ public class venta extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnagregarp;
+    public static javax.swing.JButton btnagregarp;
     private javax.swing.JButton btnbuscar_h;
     private javax.swing.JButton btnbuscar_producto;
     private javax.swing.JButton btnexplorar;
-    private javax.swing.JButton btnexplorar1;
+    private javax.swing.JButton btnexplorar_producto;
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnhuesped;
     private javax.swing.JButton btnhuesped1;

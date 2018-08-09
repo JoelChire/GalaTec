@@ -215,6 +215,7 @@ public class elegir_cliente extends javax.swing.JDialog {
         ventas.txtdni.setText(jTable1.getValueAt(fila, 9).toString());
         ventas.txtnombre.setText(jTable1.getValueAt(fila, 1).toString());
         ventas.txtapellido.setText(jTable1.getValueAt(fila, 2).toString());
+        ventas.txtciudad.setText(jTable1.getValueAt(fila, 3).toString());
         ventas.id_cliente_cliente=jTable1.getValueAt(fila, 0).toString();
         this.dispose();
     }//GEN-LAST:event_jTable1MouseClicked

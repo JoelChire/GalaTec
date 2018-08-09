@@ -1,46 +1,43 @@
+
+import ClaseConectar.Conectar;
+import Formulario.productos;
+import Formulario.venta;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Formulario;
-
-import ClaseConectar.Conectar;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author LENOVO
  */
-public class editar_producto extends javax.swing.JDialog {
+public class elegir_producto extends javax.swing.JDialog {
 
-    public static productos produc;
+    public static venta ventas;
     Conectar cc=new Conectar();
     Connection cn=cc.conexion();
-    public static int precio,precioxmayor,stock;
+    public static int idhues;
     ResultSet datos;
     DefaultTableModel model;
-    String codigo,nombre,descripcion,imagen;
-    
-    public editar_producto(productos parent, boolean modal) {
-        //super(parent, modal);
-        this.produc = parent;
-        this.setModal(modal);
-        this.setTitle("BUSCAR PRODUCTO");
+
+    public elegir_producto(venta parent, boolean modal) {
         initComponents();
+        this.ventas= parent;
+        this.setModal(modal);
+        this.setTitle("Elegir Cliente");
         mostrardatos("");
         this.setLocationRelativeTo(this);
     }
 
-    
     void mostrardatos(String valor){
     DefaultTableModel modelo= new DefaultTableModel(); 
     modelo.addColumn("CODIGO"); 
@@ -82,7 +79,7 @@ public class editar_producto extends javax.swing.JDialog {
             jTable1.setModel(modelo);
             cc.desconectar();
         } catch (SQLException ex) {
-            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     } 
@@ -156,28 +153,32 @@ public class editar_producto extends javax.swing.JDialog {
             .addGroup(jcMousePanel1Layout.createSequentialGroup()
                 .addGroup(jcMousePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jcMousePanel1Layout.createSequentialGroup()
-                        .addGap(71, 71, 71)
+                        .addGap(36, 36, 36)
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(27, 27, 27)
+                        .addGap(35, 35, 35)
+                        .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62)
                         .addComponent(jButton1))
                     .addGroup(jcMousePanel1Layout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 912, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(19, 19, 19)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 788, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jcMousePanel1Layout.setVerticalGroup(
             jcMousePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jcMousePanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jcMousePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+            .addGroup(jcMousePanel1Layout.createSequentialGroup()
+                .addGroup(jcMousePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jcMousePanel1Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(jcMousePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+                            .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jcMousePanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(115, 115, 115))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -188,7 +189,7 @@ public class editar_producto extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jcMousePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(jcMousePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -209,28 +210,17 @@ public class editar_producto extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        // TODO add your handling code here:
+        // clic mouse sobre tabla
         int fila= jTable1.getSelectedRow();
-        try {
-
-            ////////////////huesped.idhues.jTable1.getValueAt(fila,0),toString();
-            productos.txtcodigo.setText(jTable1.getValueAt(fila, 0).toString());
-            productos.txtnombre.setText(jTable1.getValueAt(fila, 1).toString());
-            productos.txtdescripcion.setText(jTable1.getValueAt(fila, 2).toString());
-            productos.txtprecio.setText(jTable1.getValueAt(fila, 3).toString());
-            productos.txtprecioxmayor.setText(jTable1.getValueAt(fila, 4).toString());
-            productos.txtstock.setText(jTable1.getValueAt(fila, 6).toString());
-            productos.txtcodigo.setEnabled(true);
-            productos.txtnombre.setEnabled(true);
-            productos.txtdescripcion.setEnabled(true);
-            productos.txtprecio.setEnabled(true);
-            productos.txtstock.setEnabled(true);
-            productos.txtcodigo.setEnabled(true);
-            productos.btneditar.setEnabled(true);
-            productos.btnguardar.setEnabled(false);
-            this.dispose();
-        } catch (Exception e) {
-        }
+        ventas.txtcodigo.setText(jTable1.getValueAt(fila, 0).toString());
+        ventas.txtnombrep.setText(jTable1.getValueAt(fila, 1).toString());
+        ventas.txtstock.setText(jTable1.getValueAt(fila, 6).toString());
+        ventas.txtdescripcion.setText(jTable1.getValueAt(fila, 2).toString());
+        ventas.txtcantidad.setEnabled(true);
+        ventas.txtcantidad.setEditable(true);
+        ventas.txtcantidad.setText("1");
+        ventas.btnagregarp.setEnabled(true);
+        this.dispose();
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
@@ -250,20 +240,20 @@ public class editar_producto extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(editar_producto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(elegir_producto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(editar_producto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(elegir_producto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(editar_producto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(elegir_producto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(editar_producto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(elegir_producto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                editar_producto dialog = new editar_producto(produc, true);
+                elegir_producto dialog = new elegir_producto(ventas, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
