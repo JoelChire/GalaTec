@@ -1,4 +1,4 @@
-
+//
 package Formulario;
 
 import ClaseConectar.Conectar;

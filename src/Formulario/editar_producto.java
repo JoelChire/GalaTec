@@ -30,9 +30,9 @@ public class editar_producto extends javax.swing.JDialog {
     DefaultTableModel model;
     String codigo,nombre,descripcion,imagen;
     
-    public editar_producto(java.awt.Frame parent, boolean modal) {
+    public editar_producto(productos parent, boolean modal) {
         //super(parent, modal);
-        //this.produc= parent;
+        this.produc = parent;
         this.setModal(modal);
         this.setTitle("BUSCAR PRODUCTO");
         initComponents();
@@ -288,7 +288,7 @@ public class editar_producto extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                editar_producto dialog = new editar_producto(new javax.swing.JFrame(), true);
+                editar_producto dialog = new editar_producto(produc, true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

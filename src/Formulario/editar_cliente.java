@@ -6,16 +6,12 @@
 package Formulario;
 
 import ClaseConectar.Conectar;
-import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 //import javax.swing.table.DefaultTableCellRenderer;
