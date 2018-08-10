@@ -1,3 +1,5 @@
+package Formulario;
+
 
 import ClaseConectar.Conectar;
 import Formulario.productos;
@@ -210,6 +212,8 @@ public class elegir_producto extends javax.swing.JDialog {
         ventas.txtcantidad.setEditable(true);
         ventas.txtcantidad.setText("1");
         ventas.btnagregarp.setEnabled(true);
+        ventas.precio=jTable1.getValueAt(fila, 3).toString();
+        ventas.precioxmayor=jTable1.getValueAt(fila, 4).toString();
         this.dispose();
     }//GEN-LAST:event_jTable1MouseClicked
 

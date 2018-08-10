@@ -31,10 +31,12 @@ public class venta extends javax.swing.JInternalFrame {
     public static seleccion_cliente seleccion_c;
     public static elegir_cliente elegir_c;
     public static elegir_producto elegir_p;
+    String precio,precioxmayor;
     DefaultTableModel modelo;
     Conectar cc=new Conectar();
     Connection cn=cc.conexion();
-    Integer seleccionado;
+    Integer seleccionado,c,p;
+    
     fecha fecha=new fecha();
     //String rtta;//r
     Integer cantidadpersonas,totalpersonas;
@@ -52,15 +54,12 @@ public class venta extends javax.swing.JInternalFrame {
         java.sql.Date fechasq1 = new java.sql.Date(fechaa.getTime());
         bandera_venta="bandera";
         ////Tabla
-        modelo= new DefaultTableModel();        
-        modelo.addColumn("CÓDIGO");
-        modelo.addColumn("NOMBRE");
-        modelo.addColumn("DESCRIPCION");
-        modelo.addColumn("CANTIDAD");
-        modelo.addColumn("PRECIO");
-        modelo.addColumn("IMAGEN");
-       
-        this.tb_det.setModel(modelo);
+        modelo= new DefaultTableModel();              
+        modelo.addColumn("CANTIDAD"); 
+        modelo.addColumn("DESCRIPCION"); 
+        modelo.addColumn("PRECIO UNITARIO");      
+        modelo.addColumn("SUBTOTAL"); 
+        this.tabla.setModel(modelo);
         jPanel1.setOpaque(false);
         panel_dt_cliente.setOpaque(false);
         panel_dt_producto.setOpaque(false);
@@ -73,6 +72,30 @@ public class venta extends javax.swing.JInternalFrame {
         limpiar();  
         btnnuevo();  
     }
+    
+    void mostrardatos(){
+                                       
+    tabla.setModel(modelo);
+    
+    String []datos = new String [10];
+
+    datos[0]=txtcantidad.getText();
+    datos[1]=txtnombrep.getText();
+    c=Integer.parseInt(datos[0]);
+    if (c>=10) {
+        datos[2]=precioxmayor; 
+    }
+    else{
+        datos[2]=precio; 
+    }
+    p=Integer.parseInt(datos[2]);
+    datos[3]= Integer.toString(p*c);
+
+    modelo.addRow(datos);         
+    tabla.setModel(modelo);
+  
+    } 
+    
     public void obtenerusuario (String u){
         usuario_alquiler=u;        
     }
@@ -114,7 +137,7 @@ public class venta extends javax.swing.JInternalFrame {
         eliminarelementos();       
     }
     void eliminarelementos(){
-        int cantfil=tb_det.getRowCount();
+        int cantfil=tabla.getRowCount();
         for(int i=cantfil-1;i>=0;i--){
             modelo.removeRow(i);
             cantidadpersonas=cantidadpersonas+1;
@@ -179,7 +202,7 @@ public class venta extends javax.swing.JInternalFrame {
         lb_num_hab_alq1 = new javax.swing.JLabel();
         txtstock = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tb_det = new javax.swing.JTable();
+        tabla = new javax.swing.JTable();
         panel_dt_venta = new javax.swing.JPanel();
         lb_id_alq = new javax.swing.JLabel();
         lb_fech_lleg = new javax.swing.JLabel();
@@ -190,6 +213,7 @@ public class venta extends javax.swing.JInternalFrame {
         btnnuevo = new javax.swing.JButton();
         btnguardar = new javax.swing.JButton();
         btnsalir = new javax.swing.JButton();
+        eliminar_producto = new javax.swing.JButton();
 
         setClosable(true);
         setTitle("Venta");
@@ -512,7 +536,7 @@ public class venta extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        tb_det.setModel(new javax.swing.table.DefaultTableModel(
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -525,7 +549,7 @@ public class venta extends javax.swing.JInternalFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(tb_det);
+        jScrollPane1.setViewportView(tabla);
 
         panel_dt_venta.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del Venta", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         panel_dt_venta.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
@@ -653,6 +677,13 @@ public class venta extends javax.swing.JInternalFrame {
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
+        eliminar_producto.setText("Eliminar último producto");
+        eliminar_producto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminar_productoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jcMousePanel1Layout = new javax.swing.GroupLayout(jcMousePanel1);
         jcMousePanel1.setLayout(jcMousePanel1Layout);
         jcMousePanel1Layout.setHorizontalGroup(
@@ -663,7 +694,10 @@ public class venta extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jcMousePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panel_dt_venta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jcMousePanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(eliminar_producto)))
                 .addContainerGap())
         );
         jcMousePanel1Layout.setVerticalGroup(
@@ -671,14 +705,14 @@ public class venta extends javax.swing.JInternalFrame {
             .addGroup(jcMousePanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jcMousePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jcMousePanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jcMousePanel1Layout.createSequentialGroup()
                         .addComponent(panel_dt_venta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(eliminar_producto)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panel_dt_venta.getAccessibleContext().setAccessibleName("Datos de la venta");
@@ -817,6 +851,8 @@ public class venta extends javax.swing.JInternalFrame {
                     txtcantidad.setEditable(true);
                     txtdescripcion.setText(rs1.getString("descripcion"));
                     txtstock.setText(rs1.getString("stock"));
+                    precio = rs1.getString("precio");
+                    precioxmayor = rs1.getString("precioxmayor");
                     ByteArrayOutputStream ouput = new ByteArrayOutputStream();
                     InputStream isdatos = rs1.getBinaryStream("imagen");
                     int temp=isdatos.read();
@@ -921,7 +957,7 @@ public class venta extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null,"Error al Obtener Fecha de llegada","ERROR",JOptionPane.ERROR_MESSAGE);
         }else if(txtnombrep.getText().isEmpty()){
             JOptionPane.showMessageDialog(null,"Elije habitacion","ERROR",JOptionPane.ERROR_MESSAGE);
-        }else if((totalpersonas>1) && ((tb_det.getRowCount()+1)!=totalpersonas)){
+        }else if((totalpersonas>1) && ((tabla.getRowCount()+1)!=totalpersonas)){
             JOptionPane.showMessageDialog(null,"Completa la Tabla de Huespedes en esta habitación","ERROR",JOptionPane.ERROR_MESSAGE);
         }
         //fn else
@@ -929,7 +965,7 @@ public class venta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void btnagregarpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarpActionPerformed
-        // TODO add your handling code here:
+        mostrardatos();
         
     }//GEN-LAST:event_btnagregarpActionPerformed
 
@@ -954,6 +990,10 @@ public class venta extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtstockActionPerformed
 
+    private void eliminar_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminar_productoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_eliminar_productoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JButton btnagregarp;
@@ -966,6 +1006,7 @@ public class venta extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnhuesped1;
     private javax.swing.JButton btnnuevo;
     private javax.swing.JButton btnsalir;
+    private javax.swing.JButton eliminar_producto;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private jcMousePanel.jcMousePanel jcMousePanel1;
@@ -984,7 +1025,7 @@ public class venta extends javax.swing.JInternalFrame {
     private javax.swing.JPanel panel_dt_cliente;
     private javax.swing.JPanel panel_dt_producto;
     private javax.swing.JPanel panel_dt_venta;
-    private javax.swing.JTable tb_det;
+    private javax.swing.JTable tabla;
     public static javax.swing.JTextField txtapellido;
     public static javax.swing.JTextField txtcantidad;
     public static javax.swing.JTextField txtciudad;

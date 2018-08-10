@@ -6,6 +6,9 @@
 package Formulario;
 
 import ClaseConectar.Conectar;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,6 +17,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -42,6 +48,7 @@ public class editar_producto extends javax.swing.JDialog {
 
     
     void mostrardatos(String valor){
+    jTable1.setDefaultRenderer(Object.class, new TablaImagen());
     DefaultTableModel modelo= new DefaultTableModel(); 
     modelo.addColumn("CODIGO"); 
     modelo.addColumn("NOMBRE"); 
@@ -60,10 +67,11 @@ public class editar_producto extends javax.swing.JDialog {
         SQL="SELECT * FROM productos";
     }
     else{
-        SQL="SELECT * FROM productos WHERE nombres LIKE  '%"+valor+"%'";
+        SQL="SELECT * FROM productos WHERE nombre LIKE  '%"+valor+"%'";
     }
  
-    String []datos = new String [10];
+    Object[] datos = new Object [10];
+    
         try {
             Conectar cc=new Conectar();            
             Connection cn=cc.conexion();
@@ -75,9 +83,18 @@ public class editar_producto extends javax.swing.JDialog {
                 datos[2]=rs.getString(3);
                 datos[3]=rs.getString(4);                
                 datos[4]=rs.getString(5);
-                datos[5]=rs.getString(7);
+                Blob blob=rs.getBlob(7);
+                byte[] data=blob.getBytes(1,(int)blob.length());
+                BufferedImage img=null;
+                try{
+                    img=ImageIO.read(new ByteArrayInputStream(data));
+                }catch(Exception ex){   
+                }
+                ImageIcon icono=new ImageIcon(img);   
+                datos[5]= new JLabel(icono);
                 datos[6]=rs.getString(8);
                 modelo.addRow(datos);
+                jTable1.setRowHeight(64);
             }
             jTable1.setModel(modelo);
             cc.desconectar();
