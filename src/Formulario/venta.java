@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,7 +36,8 @@ public class venta extends javax.swing.JInternalFrame {
     DefaultTableModel modelo;
     Conectar cc=new Conectar();
     Connection cn=cc.conexion();
-    Integer seleccionado,c,p;
+    Integer seleccionado,c;
+    Double p;
     
     fecha fecha=new fecha();
     //String rtta;//r
@@ -44,7 +46,9 @@ public class venta extends javax.swing.JInternalFrame {
     public String usuario_alquiler;
     public static String id_habitacion_seleccion; //guarda el id retornado
     public String id_cliente_cliente;//recibe el huesped de la interfaz elegir
-    ///////////////
+    Integer fila=0,cen=1;
+    public static Blob blobimagen=null;
+///////////////
     public venta() {
         super();
         initComponents();
@@ -52,9 +56,11 @@ public class venta extends javax.swing.JInternalFrame {
         this.setTitle("Venta");
         java.util.Date fechaa = new java.util.Date();
         java.sql.Date fechasq1 = new java.sql.Date(fechaa.getTime());
+        
         bandera_venta="bandera";
         ////Tabla
         modelo= new DefaultTableModel();              
+        modelo.addColumn("CODIGO"); 
         modelo.addColumn("CANTIDAD"); 
         modelo.addColumn("DESCRIPCION"); 
         modelo.addColumn("PRECIO UNITARIO");      
@@ -64,6 +70,8 @@ public class venta extends javax.swing.JInternalFrame {
         panel_dt_cliente.setOpaque(false);
         panel_dt_producto.setOpaque(false);
         panel_dt_venta.setOpaque(false);
+        txtboleta.setEnabled(false);
+        txtdescuento.setEnabled(false);
         ///
         
         //nm.setStepSize(1);
@@ -79,19 +87,21 @@ public class venta extends javax.swing.JInternalFrame {
     
     String []datos = new String [10];
 
-    datos[0]=txtcantidad.getText();
-    datos[1]=txtnombrep.getText();
-    c=Integer.parseInt(datos[0]);
+    datos[0]=txtcodigo.getText();
+    datos[1]=txtcantidad.getText();
+    datos[2]=txtnombrep.getText();
+    c=Integer.parseInt(datos[1]);
     if (c>=10) {
-        datos[2]=precioxmayor; 
+        datos[3]=precioxmayor; 
     }
     else{
-        datos[2]=precio; 
+        datos[3]=precio; 
     }
-    p=Integer.parseInt(datos[2]);
-    datos[3]= Integer.toString(p*c);
+    p=Double.parseDouble(datos[3]);
+    datos[4]= Double.toString(p*c);
 
-    modelo.addRow(datos);         
+    modelo.addRow(datos); 
+    fila=fila+1;
     tabla.setModel(modelo);
   
     } 
@@ -115,14 +125,19 @@ public class venta extends javax.swing.JInternalFrame {
         //
         txtdni.setEnabled(true);
         txtdni.setEditable(true);
-        txtnombre.setEnabled(true);
-        txtapellido.setEnabled(true);        
-        txtcantidad.setEnabled(false);
+        txtnombre.setEditable(false);
+        txtapellido.setEditable(false); 
+        txtciudad.setEditable(false);
+        txtcantidad.setEditable(false);
+        txtcodigo.setEnabled(true);
         txtcodigo.setEditable(true);
+        txtstock.setEditable(false);
         //
         //
         txtidventa.setEnabled(false);
         txtllegada.setEnabled(false);
+        txtboleta.setEditable(false);
+        txtdescuento.setEditable(true);
                  
     }    
     void limpiar(){
@@ -132,16 +147,22 @@ public class venta extends javax.swing.JInternalFrame {
         txtcodigo.setText("");
         txtnombrep.setText("");
         txtcantidad.setText("");
+        txtciudad.setText("");
+        txtstock.setText("");
+        txtdescripcion.setText("");
+        txtboleta.setText("");
         obt_id(); 
         txtllegada.setText(fecha_actual());
-        eliminarelementos();       
+              
     }
     void eliminarelementos(){
         int cantfil=tabla.getRowCount();
-        for(int i=cantfil-1;i>=0;i--){
-            modelo.removeRow(i);
-            cantidadpersonas=cantidadpersonas+1;
+        if (cantfil>0) {
+            for(int i=cantfil;i>=0;i--){
+            modelo.removeRow(i-1);
+            }
         }
+        
     }
     /////////////////  
     
@@ -197,7 +218,7 @@ public class venta extends javax.swing.JInternalFrame {
         txtdescripcion = new javax.swing.JTextField();
         btnexplorar_producto = new javax.swing.JButton();
         txtcantidad = new javax.swing.JTextField();
-        btnhuesped1 = new javax.swing.JButton();
+        btnnuevoproducto = new javax.swing.JButton();
         lb_num_camas_hab_alq1 = new javax.swing.JLabel();
         lb_num_hab_alq1 = new javax.swing.JLabel();
         txtstock = new javax.swing.JTextField();
@@ -208,11 +229,13 @@ public class venta extends javax.swing.JInternalFrame {
         lb_fech_lleg = new javax.swing.JLabel();
         txtidventa = new javax.swing.JTextField();
         txtllegada = new javax.swing.JTextField();
-        txtllegada1 = new javax.swing.JTextField();
+        txtdescuento = new javax.swing.JTextField();
         lb_fech_lleg1 = new javax.swing.JLabel();
         btnnuevo = new javax.swing.JButton();
         btnguardar = new javax.swing.JButton();
         btnsalir = new javax.swing.JButton();
+        lb_fech_lleg2 = new javax.swing.JLabel();
+        txtboleta = new javax.swing.JTextField();
         eliminar_producto = new javax.swing.JButton();
 
         setClosable(true);
@@ -411,18 +434,23 @@ public class venta extends javax.swing.JInternalFrame {
         });
 
         txtcantidad.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        txtcantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtcantidadActionPerformed(evt);
+            }
+        });
         txtcantidad.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtcantidadKeyTyped(evt);
             }
         });
 
-        btnhuesped1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        btnhuesped1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/nuevohuesped13.png"))); // NOI18N
-        btnhuesped1.setText("Nuevo Producto");
-        btnhuesped1.addActionListener(new java.awt.event.ActionListener() {
+        btnnuevoproducto.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btnnuevoproducto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/nuevohuesped13.png"))); // NOI18N
+        btnnuevoproducto.setText("Nuevo Producto");
+        btnnuevoproducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnhuesped1ActionPerformed(evt);
+                btnnuevoproductoActionPerformed(evt);
             }
         });
 
@@ -477,7 +505,7 @@ public class venta extends javax.swing.JInternalFrame {
                                 .addComponent(btnbuscar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnexplorar_producto))
-                            .addComponent(btnhuesped1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnnuevoproducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         panel_dt_productoLayout.setVerticalGroup(
@@ -498,7 +526,7 @@ public class venta extends javax.swing.JInternalFrame {
                             .addComponent(btnbuscar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnexplorar_producto, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnhuesped1)))
+                        .addComponent(btnnuevoproducto)))
                 .addGap(18, 18, 18)
                 .addGroup(panel_dt_productoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lb_tip_hab_alq)
@@ -581,16 +609,16 @@ public class venta extends javax.swing.JInternalFrame {
             }
         });
 
-        txtllegada1.setEditable(false);
-        txtllegada1.setBackground(new java.awt.Color(255, 255, 255));
-        txtllegada1.addActionListener(new java.awt.event.ActionListener() {
+        txtdescuento.setEditable(false);
+        txtdescuento.setBackground(new java.awt.Color(255, 255, 255));
+        txtdescuento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtllegada1ActionPerformed(evt);
+                txtdescuentoActionPerformed(evt);
             }
         });
-        txtllegada1.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtdescuento.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtllegada1KeyTyped(evt);
+                txtdescuentoKeyTyped(evt);
             }
         });
 
@@ -624,6 +652,22 @@ public class venta extends javax.swing.JInternalFrame {
             }
         });
 
+        lb_fech_lleg2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lb_fech_lleg2.setText("N° de boleta:");
+
+        txtboleta.setEditable(false);
+        txtboleta.setBackground(new java.awt.Color(255, 255, 255));
+        txtboleta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtboletaActionPerformed(evt);
+            }
+        });
+        txtboleta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtboletaKeyTyped(evt);
+            }
+        });
+
         javax.swing.GroupLayout panel_dt_ventaLayout = new javax.swing.GroupLayout(panel_dt_venta);
         panel_dt_venta.setLayout(panel_dt_ventaLayout);
         panel_dt_ventaLayout.setHorizontalGroup(
@@ -631,25 +675,33 @@ public class venta extends javax.swing.JInternalFrame {
             .addGroup(panel_dt_ventaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(panel_dt_ventaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panel_dt_ventaLayout.createSequentialGroup()
-                        .addComponent(lb_id_alq)
-                        .addGap(14, 14, 14)
-                        .addComponent(txtidventa, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lb_fech_lleg)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtllegada, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                        .addComponent(btnnuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_dt_ventaLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnsalir, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_dt_ventaLayout.createSequentialGroup()
-                        .addComponent(lb_fech_lleg1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtllegada1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnguardar)))
+                    .addGroup(panel_dt_ventaLayout.createSequentialGroup()
+                        .addGroup(panel_dt_ventaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(panel_dt_ventaLayout.createSequentialGroup()
+                                .addComponent(lb_id_alq)
+                                .addGap(14, 14, 14)
+                                .addComponent(txtidventa, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panel_dt_ventaLayout.createSequentialGroup()
+                                .addComponent(lb_fech_lleg2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtboleta)))
+                        .addGap(18, 18, 18)
+                        .addGroup(panel_dt_ventaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_dt_ventaLayout.createSequentialGroup()
+                                .addComponent(lb_fech_lleg)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtllegada, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panel_dt_ventaLayout.createSequentialGroup()
+                                .addComponent(lb_fech_lleg1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtdescuento, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addGroup(panel_dt_ventaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnnuevo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnguardar, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap())
         );
         panel_dt_ventaLayout.setVerticalGroup(
@@ -664,9 +716,13 @@ public class venta extends javax.swing.JInternalFrame {
                             .addComponent(lb_fech_lleg)
                             .addComponent(txtllegada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(panel_dt_ventaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lb_fech_lleg1)
-                            .addComponent(txtllegada1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(panel_dt_ventaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panel_dt_ventaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lb_fech_lleg2)
+                                .addComponent(txtboleta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panel_dt_ventaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lb_fech_lleg1)
+                                .addComponent(txtdescuento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(panel_dt_ventaLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btnnuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -793,11 +849,22 @@ public class venta extends javax.swing.JInternalFrame {
                     //desbloqueo
                     //btnhuesped.setEnabled(false);
                     //txtdni.setEditable(false);
-                    btnguardar.setEnabled(true);
+                    
                     txtnombrep.setEnabled(true);
                     
                     //txtnumeroha.setEnabled(true);
                     //txttipoha.setEnabled(true);
+                }
+                if (txtnombre.getText().isEmpty() || txtnombrep.getText().isEmpty() ) {
+                   
+                }
+                else{
+                    btnguardar.setEnabled(true);
+                    txtboleta.setEnabled(true);
+                    txtboleta.setEditable(true);
+                    txtdescuento.setEnabled(true);
+                    txtdescuento.setEditable(true);
+                    txtdescuento.setText("0");
                 }
             }catch(HeadlessException | SQLException e){
                 System.err.println("No se pudo buscar");
@@ -827,6 +894,16 @@ public class venta extends javax.swing.JInternalFrame {
         elegir_c=new elegir_cliente(this,true);
         elegir_c.setVisible(true);
         txtdni.setEditable(false);
+        if (txtnombre.getText().isEmpty() || txtnombrep.getText().isEmpty() ) {          
+        }
+        else{
+            btnguardar.setEnabled(true);
+            txtboleta.setEnabled(true);
+            txtboleta.setEditable(true);
+            txtdescuento.setEnabled(true);
+            txtdescuento.setEditable(true);
+            txtdescuento.setText("0");
+        }
         System.out.println("el ide huesped regresado: "+id_cliente_cliente);
     }//GEN-LAST:event_btnexplorarActionPerformed
 
@@ -880,6 +957,17 @@ public class venta extends javax.swing.JInternalFrame {
                     //txtnumeroha.setEnabled(true);
                     //txttipoha.setEnabled(true);
                 }
+                if (txtnombre.getText().isEmpty() || txtnombrep.getText().isEmpty() ) {
+                   
+                }
+                else{
+                    btnguardar.setEnabled(true);
+                    txtboleta.setEnabled(true);
+                    txtboleta.setEditable(true);
+                    txtdescuento.setEnabled(true);
+                    txtdescuento.setEditable(true);
+                    txtdescuento.setText("0");
+                }
             }catch(HeadlessException | SQLException e){
                 System.err.println("No se pudo buscar");
             } catch (IOException ex) {
@@ -891,7 +979,6 @@ public class venta extends javax.swing.JInternalFrame {
     private void txtcantidadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcantidadKeyTyped
         // camas
         char c = evt.getKeyChar();
-        int numerocaracteres=1;
         if (Character.isLetter(c))
         {
             getToolkit().beep();
@@ -905,9 +992,6 @@ public class venta extends javax.swing.JInternalFrame {
             getToolkit().beep();
             evt.consume();
             //JOptionPane.showMessageDialog(null,"No usar caracteres","!Advertencia!",JOptionPane.WARNING_MESSAGE);
-        }else if(txtcantidad.getText().length()>=numerocaracteres){
-            getToolkit().beep();
-            evt.consume();
         }
     }//GEN-LAST:event_txtcantidadKeyTyped
 
@@ -932,6 +1016,7 @@ public class venta extends javax.swing.JInternalFrame {
         // boton nuevo
         limpiar();
         btnnuevo();
+        eliminarelementos(); 
     }//GEN-LAST:event_btnnuevoActionPerformed
 
     private void btnsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsalirActionPerformed
@@ -943,25 +1028,84 @@ public class venta extends javax.swing.JInternalFrame {
 
     private void btnguardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarActionPerformed
         // boton guardar
-        
-        
-        if(txtdni.getText().length()<6){
-            JOptionPane.showMessageDialog(null,"Elija Huésped","ERROR",JOptionPane.ERROR_MESSAGE);
-        }else if(totalpersonas<1){
-            JOptionPane.showMessageDialog(null,"Ingresa Cantidas de Personas","ERROR",JOptionPane.ERROR_MESSAGE);
-        }else if (txtcantidad.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null,"Ingresa Cantidad de camas","ERROR",JOptionPane.ERROR_MESSAGE);
-        }else if(txtidventa.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null,"No existe ID_Alquiler","ERROR",JOptionPane.ERROR_MESSAGE);
-        }else if (txtllegada.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null,"Error al Obtener Fecha de llegada","ERROR",JOptionPane.ERROR_MESSAGE);
-        }else if(txtnombrep.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null,"Elije habitacion","ERROR",JOptionPane.ERROR_MESSAGE);
-        }else if((totalpersonas>1) && ((tabla.getRowCount()+1)!=totalpersonas)){
-            JOptionPane.showMessageDialog(null,"Completa la Tabla de Huespedes en esta habitación","ERROR",JOptionPane.ERROR_MESSAGE);
+
+        if(txtboleta.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null,"Ingrese el número de boleta","ERROR",JOptionPane.ERROR_MESSAGE);
+        }else{
+        try{
+                Conectar cc=new Conectar();
+                Connection cn=cc.conexion();
+                String SQL1="",SQL2="",SQL3="";
+                Integer id_cliente = 0;
+                SQL1="SELECT * FROM clientes WHERE dni_cliente = '"+txtdni.getText()+"'";
+                Statement st = cn.createStatement();
+                ResultSet rs = st.executeQuery(SQL1); 
+                while(rs.next()){
+                    id_cliente=Integer.parseInt(rs.getString(1));
+                }
+                Double total=0.0,pre;
+                System.out.println(tabla.getRowCount());
+                for (int i = 0; i < tabla.getRowCount(); i++) {
+                    pre=Double.parseDouble(tabla.getValueAt(i,4).toString());
+                    total=total+pre;
+                }            
+                PreparedStatement pst1=cn.prepareStatement("INSERT INTO venta(id_venta,nro_boleta,id_cliente,descuento,total,fecha) Values(?,?,?,?,?,?)");
+                
+                pst1.setInt(1,Integer.parseInt(txtidventa.getText()));
+                pst1.setString(2,txtboleta.getText());
+                pst1.setInt(3,id_cliente);
+                pst1.setDouble(4,Double.parseDouble(txtdescuento.getText()));
+                pst1.setDouble(5,total);
+                Date fecha = new Date();
+                SimpleDateFormat formatoFecha= new SimpleDateFormat("YYYY-MM-dd h:mm:ss"); 
+                pst1.setString(6,formatoFecha.format(fecha));             
+                pst1.executeUpdate();
+                
+                for (int i = 0; i < tabla.getRowCount(); i++) {
+                    PreparedStatement pst=cn.prepareStatement("INSERT INTO detalle_venta(id_venta,cod_producto,cantidad,subtotal) Values(?,?,?,?)");
+                    pst.setInt(1,Integer.parseInt(txtidventa.getText()));
+                    pst.setString(2,tabla.getValueAt(i,0).toString());
+                    pst.setInt(3, Integer.parseInt(tabla.getValueAt(i,1).toString()));
+                    //String cant=tabla.getValueAt(i,0).toString();
+                    pst.setDouble(4,Double.parseDouble(tabla.getValueAt(i,4).toString()));
+                    pst.executeUpdate();
+                    
+                    /*SQL2="SELECT * FROM productos WHERE cod_producto = '"+tabla.getValueAt(i,0).toString()+"'";
+                    Statement st2 = cn.createStatement();
+                    ResultSet rs2 = st2.executeQuery(SQL2); 
+                    Integer s=0;
+                    System.out.println("gggg");
+                    if(rs2.next()){
+                        s=Integer.parseInt(rs.getString(8));
+                    }
+                    System.out.println("rrrr");
+                    s=s-Integer.parseInt(tabla.getValueAt(i,1).toString());
+                    System.out.println("qqqq");
+                    PreparedStatement pst3;
+                    pst3 = cn.prepareStatement("UPDATE productos SET stock='"+s+"' WHERE cod_producto="+cant);
+                    pst3.executeUpdate();*/
+                }
+                
+                btnguardar.setEnabled(false); 
+                txtdni.setEnabled(false);
+                txtnombre.setEnabled(false);
+                txtapellido.setEnabled(false);
+                txtciudad.setEnabled(false);
+                txtcodigo.setEnabled(false); 
+                txtstock.setEnabled(false);
+                txtnombrep.setEnabled(false);
+                txtdescripcion.setEnabled(false);
+                txtcantidad.setEnabled(false);
+                txtboleta.setEnabled(false); 
+                txtdescuento.setEnabled(false);
+                txtstock.setEnabled(false);
+                
+                JOptionPane.showMessageDialog(null,"Registro exitoso","¡Aviso!",JOptionPane.INFORMATION_MESSAGE);
+                cc.desconectar();
+            }catch (HeadlessException | SQLException e){
+                System.out.print(e.getMessage());
+            }
         }
-        //fn else
-        ///
     }//GEN-LAST:event_btnguardarActionPerformed
 
     private void btnagregarpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnagregarpActionPerformed
@@ -972,27 +1116,67 @@ public class venta extends javax.swing.JInternalFrame {
     private void btnexplorar_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnexplorar_productoActionPerformed
         elegir_p=new elegir_producto(this,true);
         elegir_p.setVisible(true);
+        if (txtnombre.getText().isEmpty() || txtnombrep.getText().isEmpty() ) {          
+        }
+        else{
+            btnguardar.setEnabled(true);
+            txtboleta.setEnabled(true);
+            txtboleta.setEditable(true);
+            txtdescuento.setEnabled(true);
+            txtdescuento.setEditable(true);
+            txtdescuento.setText("0");
+        }
     }//GEN-LAST:event_btnexplorar_productoActionPerformed
 
-    private void btnhuesped1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhuesped1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnhuesped1ActionPerformed
+    private void btnnuevoproductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnuevoproductoActionPerformed
+        String bandera=productos.bandera_productos;
+        try{
+            if(bandera==null){
+                productos a= new productos();
+                this.getDesktopPane().add(a);
+                a.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnnuevoproductoActionPerformed
 
-    private void txtllegada1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtllegada1ActionPerformed
+    private void txtdescuentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtdescuentoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtllegada1ActionPerformed
+    }//GEN-LAST:event_txtdescuentoActionPerformed
 
-    private void txtllegada1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtllegada1KeyTyped
+    private void txtdescuentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtdescuentoKeyTyped
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtllegada1KeyTyped
+    }//GEN-LAST:event_txtdescuentoKeyTyped
 
     private void txtstockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtstockActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtstockActionPerformed
 
     private void eliminar_productoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminar_productoActionPerformed
-        // TODO add your handling code here:
+        if (cen==1) {
+            fila=fila-1;
+            cen=0;
+        }
+        if (fila>=0) {
+            modelo.removeRow(fila);
+            fila=fila-1;
+        }
     }//GEN-LAST:event_eliminar_productoActionPerformed
+
+    private void txtboletaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtboletaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtboletaActionPerformed
+
+    private void txtboletaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtboletaKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtboletaKeyTyped
+
+    private void txtcantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtcantidadActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtcantidadActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1003,8 +1187,8 @@ public class venta extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnexplorar_producto;
     private javax.swing.JButton btnguardar;
     private javax.swing.JButton btnhuesped;
-    private javax.swing.JButton btnhuesped1;
     private javax.swing.JButton btnnuevo;
+    private javax.swing.JButton btnnuevoproducto;
     private javax.swing.JButton btnsalir;
     private javax.swing.JButton eliminar_producto;
     private javax.swing.JPanel jPanel1;
@@ -1015,26 +1199,28 @@ public class venta extends javax.swing.JInternalFrame {
     private javax.swing.JLabel lb_dni_alq;
     private javax.swing.JLabel lb_fech_lleg;
     private javax.swing.JLabel lb_fech_lleg1;
+    private javax.swing.JLabel lb_fech_lleg2;
     private javax.swing.JLabel lb_id_alq;
     private javax.swing.JLabel lb_nom_alq;
     private javax.swing.JLabel lb_num_camas_hab_alq1;
     private javax.swing.JLabel lb_num_hab_alq;
     private javax.swing.JLabel lb_num_hab_alq1;
     private javax.swing.JLabel lb_tip_hab_alq;
-    private javax.swing.JLabel lbl_image;
+    public static javax.swing.JLabel lbl_image;
     private javax.swing.JPanel panel_dt_cliente;
     private javax.swing.JPanel panel_dt_producto;
     private javax.swing.JPanel panel_dt_venta;
     private javax.swing.JTable tabla;
     public static javax.swing.JTextField txtapellido;
+    private javax.swing.JTextField txtboleta;
     public static javax.swing.JTextField txtcantidad;
     public static javax.swing.JTextField txtciudad;
     public static javax.swing.JTextField txtcodigo;
     public static javax.swing.JTextField txtdescripcion;
+    private javax.swing.JTextField txtdescuento;
     public static javax.swing.JTextField txtdni;
     private javax.swing.JTextField txtidventa;
     private javax.swing.JTextField txtllegada;
-    private javax.swing.JTextField txtllegada1;
     public static javax.swing.JTextField txtnombre;
     public static javax.swing.JTextField txtnombrep;
     public static javax.swing.JTextField txtstock;

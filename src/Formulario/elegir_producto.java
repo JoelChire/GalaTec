@@ -4,12 +4,20 @@ package Formulario;
 import ClaseConectar.Conectar;
 import Formulario.productos;
 import Formulario.venta;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 public class elegir_producto extends javax.swing.JDialog {
@@ -31,6 +39,7 @@ public class elegir_producto extends javax.swing.JDialog {
     }
 
     void mostrardatos(String valor){
+    jTable1.setDefaultRenderer(Object.class, new TablaImagen());
     DefaultTableModel modelo= new DefaultTableModel(); 
     modelo.addColumn("CODIGO"); 
     modelo.addColumn("NOMBRE"); 
@@ -44,15 +53,16 @@ public class elegir_producto extends javax.swing.JDialog {
     String SQL="";
     if(valor.equals(""))
     {
-        String []datos = new String [10];
+        Object []datos = new Object [10];
 
         SQL="SELECT * FROM productos";
     }
     else{
-        SQL="SELECT * FROM productos WHERE nombres LIKE  '%"+valor+"%'";
+        SQL="SELECT * FROM productos WHERE nombre LIKE  '%"+valor+"%'";
     }
  
-    String []datos = new String [10];
+    Object[] datos = new Object [10];
+    
         try {
             Conectar cc=new Conectar();            
             Connection cn=cc.conexion();
@@ -64,14 +74,24 @@ public class elegir_producto extends javax.swing.JDialog {
                 datos[2]=rs.getString(3);
                 datos[3]=rs.getString(4);                
                 datos[4]=rs.getString(5);
-                datos[5]=rs.getString(7);
+                Blob blob=rs.getBlob(7);
+                byte[] data=blob.getBytes(1,(int)blob.length());
+                BufferedImage img=null;
+                try{
+                    img=ImageIO.read(new ByteArrayInputStream(data));
+                    img.getScaledInstance(64,64,1);
+                }catch(IOException ex){   
+                }  
+                ImageIcon icono=new ImageIcon(img);               
+                datos[5]= new JLabel(icono);
                 datos[6]=rs.getString(8);
                 modelo.addRow(datos);
+                jTable1.setRowHeight(64);
             }
             jTable1.setModel(modelo);
-            cc.desconectar();
+            
         } catch (SQLException ex) {
-            Logger.getLogger(productos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     } 
@@ -169,8 +189,8 @@ public class elegir_producto extends javax.swing.JDialog {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -208,12 +228,37 @@ public class elegir_producto extends javax.swing.JDialog {
         ventas.txtnombrep.setText(jTable1.getValueAt(fila, 1).toString());
         ventas.txtstock.setText(jTable1.getValueAt(fila, 6).toString());
         ventas.txtdescripcion.setText(jTable1.getValueAt(fila, 2).toString());
+        ventas.precio=jTable1.getValueAt(fila, 3).toString();
+        ventas.precioxmayor=jTable1.getValueAt(fila, 4).toString();
+        Conectar ccc=new Conectar();
+            Connection cnn=ccc.conexion();
+            String SQL1="";
+            SQL1="SELECT * FROM productos WHERE cod_producto="+jTable1.getValueAt(fila, 0).toString();
+            Statement st1; 
+            try {
+                st1 = cnn.createStatement();
+                ResultSet rs1 = st1.executeQuery(SQL1);
+                while(rs1.next()){
+                Image i=null;
+                Blob blob=rs1.getBlob("imagen");
+                ventas.blobimagen=blob;
+                i= javax.imageio.ImageIO.read(blob.getBinaryStream());
+                i.getScaledInstance(ventas.lbl_image.getWidth(),ventas.lbl_image.getHeight(),1);
+                ImageIcon image = new ImageIcon(i);
+                ventas.lbl_image.setIcon(image);
+            }     
+
+            } catch (SQLException ex) {
+                Logger.getLogger(elegir_producto.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+            Logger.getLogger(elegir_producto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        
         ventas.txtcantidad.setEnabled(true);
         ventas.txtcantidad.setEditable(true);
         ventas.txtcantidad.setText("1");
         ventas.btnagregarp.setEnabled(true);
-        ventas.precio=jTable1.getValueAt(fila, 3).toString();
-        ventas.precioxmayor=jTable1.getValueAt(fila, 4).toString();
         this.dispose();
     }//GEN-LAST:event_jTable1MouseClicked
 

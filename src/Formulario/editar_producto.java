@@ -6,8 +6,10 @@
 package Formulario;
 
 import ClaseConectar.Conectar;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -62,7 +64,7 @@ public class editar_producto extends javax.swing.JDialog {
     String SQL="";
     if(valor.equals(""))
     {
-        String []datos = new String [10];
+        Object []datos = new Object [10];
 
         SQL="SELECT * FROM productos";
     }
@@ -88,7 +90,8 @@ public class editar_producto extends javax.swing.JDialog {
                 BufferedImage img=null;
                 try{
                     img=ImageIO.read(new ByteArrayInputStream(data));
-                }catch(Exception ex){   
+                    img.getScaledInstance(64,64,1);
+                }catch(IOException ex){   
                 }
                 ImageIcon icono=new ImageIcon(img);   
                 datos[5]= new JLabel(icono);
@@ -97,12 +100,14 @@ public class editar_producto extends javax.swing.JDialog {
                 jTable1.setRowHeight(64);
             }
             jTable1.setModel(modelo);
-            cc.desconectar();
+            
         } catch (SQLException ex) {
             Logger.getLogger(cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     } 
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -181,8 +186,8 @@ public class editar_producto extends javax.swing.JDialog {
                         .addComponent(jButton1))
                     .addGroup(jcMousePanel1Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 912, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 848, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
         jcMousePanel1Layout.setVerticalGroup(
             jcMousePanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,19 +198,21 @@ public class editar_producto extends javax.swing.JDialog {
                     .addComponent(txtnombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(115, 115, 115))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jcMousePanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jcMousePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jcMousePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jcMousePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -229,14 +236,29 @@ public class editar_producto extends javax.swing.JDialog {
         // TODO add your handling code here:
         int fila= jTable1.getSelectedRow();
         try {
-
-            ////////////////huesped.idhues.jTable1.getValueAt(fila,0),toString();
             productos.txtcodigo.setText(jTable1.getValueAt(fila, 0).toString());
             productos.txtnombre.setText(jTable1.getValueAt(fila, 1).toString());
             productos.txtdescripcion.setText(jTable1.getValueAt(fila, 2).toString());
             productos.txtprecio.setText(jTable1.getValueAt(fila, 3).toString());
             productos.txtprecioxmayor.setText(jTable1.getValueAt(fila, 4).toString());
             productos.txtstock.setText(jTable1.getValueAt(fila, 6).toString());
+            Conectar ccc=new Conectar();
+            Connection cnn=ccc.conexion();
+            String SQL1="";
+            SQL1="SELECT * FROM productos WHERE cod_producto="+jTable1.getValueAt(fila, 0).toString();
+            Statement st1 = cnn.createStatement();
+            ResultSet rs1 = st1.executeQuery(SQL1);
+            while(rs1.next()){
+                Image i=null;
+                productos.urlimagen=rs1.getString(6);
+                Blob blob=rs1.getBlob("imagen");
+                productos.blobimagen=blob;
+                i= javax.imageio.ImageIO.read(blob.getBinaryStream());
+                i.getScaledInstance(productos.lblimagen.getWidth(),productos.lblimagen.getHeight(),1);
+                ImageIcon image = new ImageIcon(i);
+                productos.lblimagen.setIcon(image);
+            }           
+            productos.lblimagen.setEnabled(true);
             productos.txtcodigo.setEnabled(true);
             productos.txtnombre.setEnabled(true);
             productos.txtdescripcion.setEnabled(true);
@@ -246,8 +268,10 @@ public class editar_producto extends javax.swing.JDialog {
             productos.btneditar.setEnabled(true);
             productos.btnguardar.setEnabled(false);
             this.dispose();
-        } catch (Exception e) {
+        } catch (IOException | SQLException e) {
+            System.out.print(e.getMessage());
         }
+        
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
