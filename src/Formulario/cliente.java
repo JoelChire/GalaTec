@@ -92,6 +92,7 @@ public class cliente extends javax.swing.JInternalFrame {
         jMenuItem1.setText("jMenuItem1");
         jPopupMenu1.add(jMenuItem1);
 
+        setClosable(true);
         setTitle("Registro de Cliente");
 
         jcMousePanel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/fondoplomo1.jpg"))); // NOI18N

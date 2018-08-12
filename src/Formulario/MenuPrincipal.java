@@ -171,7 +171,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem4.setText("Usuario");
+        jMenuItem4.setText("Usuarios");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem4ActionPerformed(evt);
@@ -216,6 +216,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/consultas2.png"))); // NOI18N
         jMenu4.setText("Consultas");
+        jMenu4.setEnabled(false);
         jMenu4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jMenuBar1.add(jMenu4);
 

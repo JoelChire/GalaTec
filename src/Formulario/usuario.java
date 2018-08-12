@@ -57,6 +57,7 @@ public class usuario extends javax.swing.JInternalFrame {
         btnactualizar = new javax.swing.JButton();
         btnsalir = new javax.swing.JButton();
 
+        setClosable(true);
         setTitle("Registro de Usuario");
 
         jcMousePanel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/fondoplomo1.jpg"))); // NOI18N

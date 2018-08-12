@@ -410,6 +410,7 @@ public class venta extends javax.swing.JInternalFrame {
         });
 
         lbl_image.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        lbl_image.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         btnagregarp.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btnagregarp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/GUARdar1.png"))); // NOI18N
