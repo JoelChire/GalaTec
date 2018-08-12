@@ -85,16 +85,21 @@ public class editar_producto extends javax.swing.JDialog {
                 datos[2]=rs.getString(3);
                 datos[3]=rs.getString(4);                
                 datos[4]=rs.getString(5);
-                Blob blob=rs.getBlob(7);
+                Blob blob=rs.getBlob(7); 
                 byte[] data=blob.getBytes(1,(int)blob.length());
-                BufferedImage img=null;
-                try{
-                    img=ImageIO.read(new ByteArrayInputStream(data));
-                    img.getScaledInstance(64,64,1);
-                }catch(IOException ex){   
-                }
-                ImageIcon icono=new ImageIcon(img);   
-                datos[5]= new JLabel(icono);
+                    
+                if (blob.length()==0) {
+                    datos[5]= null;
+                }else{ 
+                    BufferedImage img=null;
+                    try{
+                        img=ImageIO.read(new ByteArrayInputStream(data));
+                        img.getScaledInstance(64,64,1);
+                    }catch(IOException ex){   
+                    }
+                    ImageIcon icono=new ImageIcon(img);   
+                    datos[5]= new JLabel(icono);
+                }         
                 datos[6]=rs.getString(8);
                 modelo.addRow(datos);
                 jTable1.setRowHeight(64);
@@ -252,11 +257,13 @@ public class editar_producto extends javax.swing.JDialog {
                 Image i=null;
                 productos.urlimagen=rs1.getString(6);
                 Blob blob=rs1.getBlob("imagen");
-                productos.blobimagen=blob;
-                i= javax.imageio.ImageIO.read(blob.getBinaryStream());
-                i.getScaledInstance(productos.lblimagen.getWidth(),productos.lblimagen.getHeight(),1);
-                ImageIcon image = new ImageIcon(i);
-                productos.lblimagen.setIcon(image);
+                if (blob.length()!=0) {
+                    productos.blobimagen=blob;
+                    i= javax.imageio.ImageIO.read(blob.getBinaryStream());
+                    i.getScaledInstance(productos.lblimagen.getWidth(),productos.lblimagen.getHeight(),1);
+                    ImageIcon image = new ImageIcon(i);
+                    productos.lblimagen.setIcon(image);
+                }               
             }           
             productos.lblimagen.setEnabled(true);
             productos.txtcodigo.setEnabled(true);

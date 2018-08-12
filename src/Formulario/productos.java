@@ -50,7 +50,7 @@ public class productos extends javax.swing.JInternalFrame {
         this.setTitle("productos");
         bandera_productos="bandera";
         btneditar.setEnabled(false);
-        
+        jPanel1.setOpaque(false);
     }
 
     void limpiar(){
@@ -114,7 +114,7 @@ public class productos extends javax.swing.JInternalFrame {
         btnguardar = new javax.swing.JButton();
         btnsalir = new javax.swing.JButton();
 
-        jcMousePanel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/fondo7.jpg"))); // NOI18N
+        jcMousePanel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Fondos/fondoplomo1.jpg"))); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos de nuevo producto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
         jPanel1.setForeground(java.awt.Color.white);
@@ -198,6 +198,9 @@ public class productos extends javax.swing.JInternalFrame {
             }
         });
         txtprecio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtprecioKeyReleased(evt);
+            }
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtprecioKeyTyped(evt);
             }
@@ -653,6 +656,11 @@ public class productos extends javax.swing.JInternalFrame {
     private void txtprecioxmayorKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtprecioxmayorKeyTyped
         // TODO add your handling code here:
     }//GEN-LAST:event_txtprecioxmayorKeyTyped
+
+    private void txtprecioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtprecioKeyReleased
+        String pre=txtprecio.getText();
+        txtprecioxmayor.setText(pre);
+    }//GEN-LAST:event_txtprecioKeyReleased
 
     /**
      * @param args the command line arguments

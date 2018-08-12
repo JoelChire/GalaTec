@@ -84,26 +84,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jSeparator5 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jSeparator7 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        jSeparator8 = new javax.swing.JPopupMenu.Separator();
         jMenu4 = new javax.swing.JMenu();
-        jMenuItem12 = new javax.swing.JMenuItem();
-        jSeparator9 = new javax.swing.JPopupMenu.Separator();
-        jSeparator11 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem16 = new javax.swing.JMenuItem();
-        jSeparator10 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem17 = new javax.swing.JMenuItem();
-        jSeparator13 = new javax.swing.JPopupMenu.Separator();
-        jSeparator12 = new javax.swing.JPopupMenu.Separator();
-        jSeparator20 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem22 = new javax.swing.JMenuItem();
-        jSeparator18 = new javax.swing.JPopupMenu.Separator();
         jMenu5 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jSeparator15 = new javax.swing.JPopupMenu.Separator();
@@ -162,7 +145,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu1.setText("Login");
         jMenu1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        MPcerrarsesion.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        MPcerrarsesion.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         MPcerrarsesion.setText("Cerrar Sesión");
         MPcerrarsesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -187,6 +170,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu2.setText("Registro");
         jMenu2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
+        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem4.setText("Usuario");
         jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -195,6 +179,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem4);
 
+        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setText("Clientes");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,6 +188,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         });
         jMenu2.add(jMenuItem5);
 
+        jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem6.setText("Productos");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -210,7 +196,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem6);
-        jMenu2.add(jSeparator3);
 
         jMenuBar1.add(jMenu2);
 
@@ -226,73 +211,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
             }
         });
         jMenu3.add(jMenuItem8);
-        jMenu3.add(jSeparator5);
-
-        jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem10.setText("Cobro Diario");
-        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem10ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem10);
-        jMenu3.add(jSeparator7);
-
-        jMenuItem11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem11.setText("Cierre Diario");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem11ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem11);
-        jMenu3.add(jSeparator8);
 
         jMenuBar1.add(jMenu3);
 
         jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/consultas2.png"))); // NOI18N
         jMenu4.setText("Consultas");
         jMenu4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-
-        jMenuItem12.setText("Buscar  Húesped");
-        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem12ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem12);
-        jMenu4.add(jSeparator9);
-        jMenu4.add(jSeparator11);
-
-        jMenuItem16.setText("Buscar  Alquiler");
-        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem16ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem16);
-        jMenu4.add(jSeparator10);
-
-        jMenuItem17.setText("Buscar Habitación");
-        jMenuItem17.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem17ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem17);
-        jMenu4.add(jSeparator13);
-        jMenu4.add(jSeparator12);
-        jMenu4.add(jSeparator20);
-
-        jMenuItem22.setText("Huésped atendido por recepcionista");
-        jMenuItem22.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem22ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem22);
-        jMenu4.add(jSeparator18);
-
         jMenuBar1.add(jMenu4);
 
         jMenu5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/REPORTE17.png"))); // NOI18N
@@ -401,34 +325,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        // ventana de venta
-        String bandera=venta.bandera_venta;
-        try{            
-            if(bandera==null){            
-                venta a= new venta();  
-                this.escritorio.add(a);
-                a.obtenerusuario(usuario_actual);
-                //a.txtusuario.setText(usuario_actual);
-                a.setVisible(true);                
-            }else{
-                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!");
-            }    
-        }catch(Exception e){
-            e.printStackTrace();    
-        }     
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
-
-    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
-        // ventana de cobro diario
-        
-    }//GEN-LAST:event_jMenuItem10ActionPerformed
-
-    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
-        // ventana de cierre diario
-        
-    }//GEN-LAST:event_jMenuItem11ActionPerformed
  
     private void MPsalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MPsalirActionPerformed
         // TODO add your handling code here:
@@ -635,26 +531,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    private void jMenuItem22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem22ActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jMenuItem22ActionPerformed
-
-    private void jMenuItem17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem17ActionPerformed
-        // Buscar habitacion
-        
-    }//GEN-LAST:event_jMenuItem17ActionPerformed
-
-    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
-        // Visualizar Alquileres
-        
-    }//GEN-LAST:event_jMenuItem16ActionPerformed
-
-    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
-        // ventana de buscar huesped
-        
-    }//GEN-LAST:event_jMenuItem12ActionPerformed
-
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // ventana de clientes
         String bandera=cliente.bandera_cliente; //las banderas verifican si la ventana ya esta abierta
@@ -672,6 +548,24 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // ventana de venta
+        String bandera=venta.bandera_venta;
+        try{
+            if(bandera==null){
+                venta a= new venta();
+                this.escritorio.add(a);
+                a.obtenerusuario(usuario_actual);
+                //a.txtusuario.setText(usuario_actual);
+                a.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -719,17 +613,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem11;
-    private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
-    private javax.swing.JMenuItem jMenuItem16;
-    private javax.swing.JMenuItem jMenuItem17;
     public javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem20;
     private javax.swing.JMenuItem jMenuItem21;
-    private javax.swing.JMenuItem jMenuItem22;
     private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
@@ -737,22 +625,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPopupMenu.Separator jSeparator1;
-    private javax.swing.JPopupMenu.Separator jSeparator10;
-    private javax.swing.JPopupMenu.Separator jSeparator11;
-    private javax.swing.JPopupMenu.Separator jSeparator12;
-    private javax.swing.JPopupMenu.Separator jSeparator13;
     private javax.swing.JPopupMenu.Separator jSeparator14;
     private javax.swing.JPopupMenu.Separator jSeparator15;
     private javax.swing.JPopupMenu.Separator jSeparator16;
     private javax.swing.JPopupMenu.Separator jSeparator17;
-    private javax.swing.JPopupMenu.Separator jSeparator18;
     private javax.swing.JPopupMenu.Separator jSeparator19;
-    private javax.swing.JPopupMenu.Separator jSeparator20;
-    private javax.swing.JPopupMenu.Separator jSeparator3;
-    private javax.swing.JPopupMenu.Separator jSeparator5;
-    private javax.swing.JPopupMenu.Separator jSeparator7;
-    private javax.swing.JPopupMenu.Separator jSeparator8;
-    private javax.swing.JPopupMenu.Separator jSeparator9;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private jcMousePanel.jcMousePanel jcMousePanel1;

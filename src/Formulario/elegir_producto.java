@@ -74,16 +74,21 @@ public class elegir_producto extends javax.swing.JDialog {
                 datos[2]=rs.getString(3);
                 datos[3]=rs.getString(4);                
                 datos[4]=rs.getString(5);
-                Blob blob=rs.getBlob(7);
+                Blob blob=rs.getBlob(7); 
                 byte[] data=blob.getBytes(1,(int)blob.length());
-                BufferedImage img=null;
-                try{
-                    img=ImageIO.read(new ByteArrayInputStream(data));
-                    img.getScaledInstance(64,64,1);
-                }catch(IOException ex){   
-                }  
-                ImageIcon icono=new ImageIcon(img);               
-                datos[5]= new JLabel(icono);
+                    
+                if (blob.length()==0) {
+                    datos[5]= null;
+                }else{ 
+                    BufferedImage img=null;
+                    try{
+                        img=ImageIO.read(new ByteArrayInputStream(data));
+                        img.getScaledInstance(64,64,1);
+                    }catch(IOException ex){   
+                    }
+                    ImageIcon icono=new ImageIcon(img);   
+                    datos[5]= new JLabel(icono);
+                }
                 datos[6]=rs.getString(8);
                 modelo.addRow(datos);
                 jTable1.setRowHeight(64);
@@ -241,11 +246,13 @@ public class elegir_producto extends javax.swing.JDialog {
                 while(rs1.next()){
                 Image i=null;
                 Blob blob=rs1.getBlob("imagen");
-                ventas.blobimagen=blob;
-                i= javax.imageio.ImageIO.read(blob.getBinaryStream());
-                i.getScaledInstance(ventas.lbl_image.getWidth(),ventas.lbl_image.getHeight(),1);
-                ImageIcon image = new ImageIcon(i);
-                ventas.lbl_image.setIcon(image);
+                if (blob.length()!=0) {
+                    ventas.blobimagen=blob;
+                    i= javax.imageio.ImageIO.read(blob.getBinaryStream());
+                    i.getScaledInstance(ventas.lbl_image.getWidth(),ventas.lbl_image.getHeight(),1);
+                    ImageIcon image = new ImageIcon(i);
+                    ventas.lbl_image.setIcon(image);
+                } 
             }     
 
             } catch (SQLException ex) {
