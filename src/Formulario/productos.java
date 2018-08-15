@@ -506,15 +506,15 @@ public class productos extends javax.swing.JInternalFrame {
                 pst.executeUpdate();  
             }
             else{
-                String sql="UPDATE productos SET cod_producto='?' "
-                 + "nombre = '?',"
-                 + "descripcion = '?',"
-                 + "precio = '?',"
-                 + "precioxmayor='?',"
-                 + "urlimagen='?',"
-                 + "imagen='?',"
-                 + "stock='?'"
-                 + "WHERE cod_producto ='"+cod+"'"; 
+                String sql="UPDATE productos SET cod_producto=?,"
+                 + "nombre =?,"
+                 + "descripcion =?,"
+                 + "precio =?,"
+                 + "precioxmayor=?,"
+                 + "urlimagen=?,"
+                 + "imagen=?,"
+                 + "stock=?"
+                 + " WHERE cod_producto='"+cod+"'"; 
                 pst = cn.prepareStatement(sql);
                 pst.setString(1,txtcodigo.getText());               
                 pst.setString(2,txtnombre.getText());

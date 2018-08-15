@@ -91,7 +91,7 @@ public class elegir_producto extends javax.swing.JDialog {
                 }
                 datos[6]=rs.getString(8);
                 modelo.addRow(datos);
-                jTable1.setRowHeight(64);
+                jTable1.setRowHeight(100);
             }
             jTable1.setModel(modelo);
             
@@ -249,7 +249,7 @@ public class elegir_producto extends javax.swing.JDialog {
                 if (blob.length()!=0) {
                     ventas.blobimagen=blob;
                     i= javax.imageio.ImageIO.read(blob.getBinaryStream());
-                    i.getScaledInstance(ventas.lbl_image.getWidth(),ventas.lbl_image.getHeight(),1);
+                    i=i.getScaledInstance(ventas.lbl_image.getWidth(),ventas.lbl_image.getHeight(),1);
                     ImageIcon image = new ImageIcon(i);
                     ventas.lbl_image.setIcon(image);
                 } 

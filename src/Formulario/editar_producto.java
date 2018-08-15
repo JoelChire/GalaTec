@@ -97,12 +97,12 @@ public class editar_producto extends javax.swing.JDialog {
                         img.getScaledInstance(64,64,1);
                     }catch(IOException ex){   
                     }
-                    ImageIcon icono=new ImageIcon(img);   
+                    ImageIcon icono=new ImageIcon(img); 
                     datos[5]= new JLabel(icono);
                 }         
                 datos[6]=rs.getString(8);
                 modelo.addRow(datos);
-                jTable1.setRowHeight(64);
+                jTable1.setRowHeight(100);
             }
             jTable1.setModel(modelo);
             
@@ -261,7 +261,7 @@ public class editar_producto extends javax.swing.JDialog {
                 if (blob.length()!=0) {
                     productos.blobimagen=blob;
                     i= javax.imageio.ImageIO.read(blob.getBinaryStream());
-                    i.getScaledInstance(productos.lblimagen.getWidth(),productos.lblimagen.getHeight(),1);
+                    i=i.getScaledInstance(productos.lblimagen.getWidth(),productos.lblimagen.getHeight(),1);
                     ImageIcon image = new ImageIcon(i);
                     productos.lblimagen.setIcon(image);
                 } 
