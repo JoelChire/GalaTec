@@ -500,24 +500,23 @@ public class productos extends javax.swing.JInternalFrame {
             Conectar cc=new Conectar();
             Connection cn=cc.conexion();
             String cod=txtcodigo.getText();
-            PreparedStatement pst;
+            PreparedStatement pst; 
             if (txturl.getText().isEmpty()) {  
-                pst = cn.prepareStatement("UPDATE productos SET cod_producto='"+txtcodigo.getText()+"',nombre='"+txtnombre.getText()+"',descripcion='"+txtdescripcion.getText()+"',precio='"+Double.parseDouble(txtprecio.getText())+"',precioxmayor='"+Double.parseDouble(txtprecioxmayor.getText())+"',stock='"+Integer.parseInt(txtstock.getText())+"'   WHERE cod_producto="+cod);
+                pst = cn.prepareStatement("UPDATE productos SET cod_producto='"+txtcodigo.getText()+"',nombre='"+txtnombre.getText()+"',descripcion='"+txtdescripcion.getText()+"',precio='"+Double.parseDouble(txtprecio.getText())+"',precioxmayor='"+Double.parseDouble(txtprecioxmayor.getText())+"',stock='"+Integer.parseInt(txtstock.getText())+"'   WHERE cod_producto='"+cod+ "'");
                 pst.executeUpdate();  
             }
             else{
-                String sql="UPDATE productos SET cod_producto = ?, "
-                 + "nombre = ?,"
-                 + "descripcion = ?,"
-                 + "precio = ?,"
-                 + "precioxmayor=?,"
-                 + "urlimagen=?,"
-                 + "imagen=?,"
-                 + "stock=?"
-                 + "WHERE cod_producto =?"; 
+                String sql="UPDATE productos SET cod_producto='?' "
+                 + "nombre = '?',"
+                 + "descripcion = '?',"
+                 + "precio = '?',"
+                 + "precioxmayor='?',"
+                 + "urlimagen='?',"
+                 + "imagen='?',"
+                 + "stock='?'"
+                 + "WHERE cod_producto ='"+cod+"'"; 
                 pst = cn.prepareStatement(sql);
-
-                pst.setString(1,txtcodigo.getText());
+                pst.setString(1,txtcodigo.getText());               
                 pst.setString(2,txtnombre.getText());
                 pst.setString(3,txtdescripcion.getText());
                 pst.setDouble(4,Double.parseDouble(txtprecio.getText()));
@@ -527,7 +526,6 @@ public class productos extends javax.swing.JInternalFrame {
                 foto = new FileInputStream(txturl.getText());
                 pst.setBinaryStream(7, foto);
                 pst.setInt(8,Integer.parseInt(txtstock.getText()));
-                pst.setString(9,cod);
                 pst.executeUpdate();
             }
             JOptionPane.showMessageDialog(null,"Modificacion exitosa","¡Aviso!",JOptionPane.INFORMATION_MESSAGE);

@@ -238,7 +238,7 @@ public class elegir_producto extends javax.swing.JDialog {
         Conectar ccc=new Conectar();
             Connection cnn=ccc.conexion();
             String SQL1="";
-            SQL1="SELECT * FROM productos WHERE cod_producto="+jTable1.getValueAt(fila, 0).toString();
+            SQL1="SELECT * FROM productos WHERE cod_producto='"+jTable1.getValueAt(fila, 0).toString()+"'";
             Statement st1; 
             try {
                 st1 = cnn.createStatement();

@@ -251,14 +251,13 @@ public class editar_producto extends javax.swing.JDialog {
             Connection cnn=ccc.conexion();
             String SQL1="";
             System.out.println(jTable1.getValueAt(fila, 0).toString());
-            SQL1="SELECT * FROM productos WHERE cod_producto="+jTable1.getValueAt(fila, 0).toString();
+            SQL1="SELECT * FROM productos WHERE cod_producto='"+jTable1.getValueAt(fila, 0).toString()+"'";
             Statement st1 = cnn.createStatement();
             ResultSet rs1 = st1.executeQuery(SQL1);
             while(rs1.next()){
                 Image i=null;
                 productos.urlimagen=rs1.getString(6);
                 Blob blob=rs1.getBlob("imagen");
-                System.out.println(blob.length());
                 if (blob.length()!=0) {
                     productos.blobimagen=blob;
                     i= javax.imageio.ImageIO.read(blob.getBinaryStream());
