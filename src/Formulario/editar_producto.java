@@ -250,6 +250,7 @@ public class editar_producto extends javax.swing.JDialog {
             Conectar ccc=new Conectar();
             Connection cnn=ccc.conexion();
             String SQL1="";
+            System.out.println(jTable1.getValueAt(fila, 0).toString());
             SQL1="SELECT * FROM productos WHERE cod_producto="+jTable1.getValueAt(fila, 0).toString();
             Statement st1 = cnn.createStatement();
             ResultSet rs1 = st1.executeQuery(SQL1);
@@ -257,13 +258,17 @@ public class editar_producto extends javax.swing.JDialog {
                 Image i=null;
                 productos.urlimagen=rs1.getString(6);
                 Blob blob=rs1.getBlob("imagen");
+                System.out.println(blob.length());
                 if (blob.length()!=0) {
                     productos.blobimagen=blob;
                     i= javax.imageio.ImageIO.read(blob.getBinaryStream());
                     i.getScaledInstance(productos.lblimagen.getWidth(),productos.lblimagen.getHeight(),1);
                     ImageIcon image = new ImageIcon(i);
                     productos.lblimagen.setIcon(image);
-                }               
+                } 
+                else{
+                    productos.lblimagen.setIcon(null);
+                }
             }           
             productos.lblimagen.setEnabled(true);
             productos.txtcodigo.setEnabled(true);

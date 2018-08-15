@@ -1046,7 +1046,8 @@ public class venta extends javax.swing.JInternalFrame {
                 for (int i = 0; i < tabla.getRowCount(); i++) {
                     pre=Double.parseDouble(tabla.getValueAt(i,4).toString());
                     total=total+pre;
-                }            
+                } 
+                total=total-Double.parseDouble(txtdescuento.getText());
                 PreparedStatement pst1=cn.prepareStatement("INSERT INTO venta(id_venta,nro_boleta,id_cliente,descuento,total,fecha) Values(?,?,?,?,?,?)");
                 
                 pst1.setInt(1,Integer.parseInt(txtidventa.getText()));

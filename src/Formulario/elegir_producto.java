@@ -253,6 +253,9 @@ public class elegir_producto extends javax.swing.JDialog {
                     ImageIcon image = new ImageIcon(i);
                     ventas.lbl_image.setIcon(image);
                 } 
+                else{
+                    ventas.lbl_image.setIcon(null);
+                }
             }     
 
             } catch (SQLException ex) {
