@@ -5,7 +5,6 @@ import Clases.fecha;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,17 +14,22 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.SpinnerNumberModel;
+import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class venta extends javax.swing.JInternalFrame {
 
@@ -1100,6 +1104,20 @@ public class venta extends javax.swing.JInternalFrame {
                 txtstock.setEnabled(false);
                 
                 JOptionPane.showMessageDialog(null,"Registro exitoso","¡Aviso!",JOptionPane.INFORMATION_MESSAGE);
+                
+                JasperReport reporte;
+                try {
+                    Map parametro = new HashMap();
+                    parametro.put("Codigo", txtboleta.getText());
+                    parametro.put("CodigoC",id_cliente);
+                    reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/rptFactura.jasper"));
+                    JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn); //Llenado del Reporte con Tres parametros ubicacion,parametros,conexion a la base de datos
+                    JasperViewer viewer = new JasperViewer(jprint,false); //Creamos la vista del Reporte
+                    viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Le agregamos que se cierre solo el reporte cuando lo cierre el usuario
+                    viewer.setVisible(true); //Inicializamos la vista del Reporte//Cargo el reporte al objeto
+                } catch (JRException ex) {
+                    Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 cc.desconectar();
             }catch (HeadlessException | SQLException e){
                 System.out.print(e.getMessage());
