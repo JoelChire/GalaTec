@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="523" pageHeight="409" columnWidth="483" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a03997c4-8c73-495b-876a-8dcb1e2841e8">
+	<property name="ireport.zoom" value="1.6105100000000008"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT c.nombres, c.apellidos,v.id_venta, v.nro_boleta,d.sumatotal,v.total,v.fecha from clientes c
+inner join venta v ON c.id_cliente=v.id_cliente inner JOIN (
+SELECT fecha, SUM(total) as sumatotal from  venta 
+where year(fecha)=year(CURDATE())) as d on year(d.fecha)=year(v.fecha)
+where year(v.fecha)=YEAR(CURDATE());]]>
+	</queryString>
+	<field name="nombres" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="apellidos" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="id_venta" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nro_boleta" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="sumatotal" class="java.lang.Double"/>
+	<field name="total" class="java.lang.Double">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<sortField name="COLUMN_COUNT" type="Variable"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<rectangle>
+				<reportElement x="307" y="0" width="158" height="79" uuid="7af6a7a3-59aa-4564-b4cb-32b9b5c36b5f"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="307" y="34" width="158" height="20" forecolor="#FFFFFF" backcolor="#0066FF" uuid="c41a5abd-7dc1-4773-ad76-653fb7eff19d"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte Anual]]></text>
+			</staticText>
+			<image>
+				<reportElement x="13" y="3" width="89" height="76" uuid="51876800-d59f-4470-bcd4-3e38628b9fac"/>
+				<imageExpression><![CDATA["C:\\Users\\joelc\\OneDrive\\Documents\\NetBeansProjects\\GalaTec\\src\\Fondos\\gala.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="120" y="3" width="187" height="45" uuid="275ff378-4ec7-40a8-aa5d-98e9274345ea"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[G & G GALA TECNOLOGIC'S E.I.R.L.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="42" width="187" height="17" uuid="e13cc09c-3390-4246-84a0-2abd480759f1"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<text><![CDATA[CAL.BRUSELAS NRO. 241 URB. LOS SAUCES (ALT CDRA 44 DE AVIACION - SAUCES II) LIMA - LIMA - SURQUILLO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="65" width="100" height="14" uuid="ef10084e-fa24-469a-a94b-2017074a68df"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Celular: 992 541 764]]></text>
+			</staticText>
+			<textField pattern="yyyy.MMMMM.dd GGG hh:mm aaa">
+				<reportElement x="376" y="59" width="29" height="20" uuid="b336e6ce-21e1-4c56-b246-ef2414223195"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="13" y="13" width="49" height="20" forecolor="#FFFFFF" backcolor="#0066FF" uuid="189de2e4-0106-4c68-bc33-76814e7318c1"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Nº]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="162" y="13" width="243" height="20" forecolor="#FFFFFF" backcolor="#0066FF" uuid="805501bc-22e2-4127-bf7d-6f84368c85a7"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="405" y="13" width="78" height="20" forecolor="#FFFFFF" backcolor="#0066FF" uuid="4705896a-545c-4902-99fc-53d8a0fc8f20"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="62" y="13" width="100" height="20" forecolor="#FFFFFF" backcolor="#0066FF" uuid="9dd79a66-4d01-4cea-89a4-f65eb5a58e96"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Nº Boleta]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="162" y="5" width="114" height="20" uuid="35c2d140-424a-4ed7-850f-f538d49334a0"/>
+				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="5" width="129" height="20" uuid="3c048638-c1f2-425a-8ba3-a29aa4b0fb65"/>
+				<textFieldExpression><![CDATA[$F{apellidos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="13" y="5" width="49" height="20" uuid="3864a9f0-9a94-4847-ae12-8ad33f2522c9"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{id_venta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="62" y="5" width="100" height="20" uuid="0cb9e5c3-a050-4f76-89c3-d37cd29e159c"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nro_boleta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="405" y="5" width="78" height="20" uuid="176c4cab-2a05-49fa-a759-2417f7d3cf9a"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="29" splitType="Stretch">
+			<line>
+				<reportElement x="13" y="0" width="470" height="1" uuid="6facae58-6daf-45bc-a552-57ee332cc689"/>
+			</line>
+			<elementGroup/>
+			<textField>
+				<reportElement x="405" y="9" width="78" height="20" uuid="2896e4b4-f05a-4e36-be69-b847989886b1"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{sumatotal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="276" y="9" width="117" height="20" uuid="b17f6748-e762-42cc-a260-f29c446ff984"/>
+				<text><![CDATA[ VENTA ANUAL TOTAL :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="393" y="9" width="12" height="20" uuid="5021e6fe-5842-460d-936a-bae37dd4032a"/>
+				<text><![CDATA[S/.]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

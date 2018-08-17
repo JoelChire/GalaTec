@@ -88,18 +88,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jSeparator15 = new javax.swing.JPopupMenu.Separator();
         jMenuItem7 = new javax.swing.JMenuItem();
         jSeparator16 = new javax.swing.JPopupMenu.Separator();
         jMenuItem14 = new javax.swing.JMenuItem();
         jSeparator17 = new javax.swing.JPopupMenu.Separator();
         jMenuItem15 = new javax.swing.JMenuItem();
         jSeparator14 = new javax.swing.JPopupMenu.Separator();
-        jMenu7 = new javax.swing.JMenu();
-        jMenuItem20 = new javax.swing.JMenuItem();
-        jSeparator19 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem24 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
+        jSeparator15 = new javax.swing.JPopupMenu.Separator();
         jMenu6 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
 
@@ -224,16 +220,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu5.setText("Reportes");
         jMenu5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
-        jMenuItem2.setText("Detalle de alquileres");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem2);
-        jMenu5.add(jSeparator15);
-
-        jMenuItem7.setText("Estado de habitaciones");
+        jMenuItem7.setText("Diario");
         jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem7ActionPerformed(evt);
@@ -242,7 +229,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu5.add(jMenuItem7);
         jMenu5.add(jSeparator16);
 
-        jMenuItem14.setText("Top de taxistas");
+        jMenuItem14.setText("Mensual");
         jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem14ActionPerformed(evt);
@@ -251,7 +238,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu5.add(jMenuItem14);
         jMenu5.add(jSeparator17);
 
-        jMenuItem15.setText("Huésped atentido por recepcionista");
+        jMenuItem15.setText("Anual");
         jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem15ActionPerformed(evt);
@@ -260,26 +247,14 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu5.add(jMenuItem15);
         jMenu5.add(jSeparator14);
 
-        jMenu7.setText("Cierre diario");
-
-        jMenuItem20.setText("Turno mañana");
-        jMenuItem20.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem16.setText("Personalizado");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem20ActionPerformed(evt);
+                jMenuItem16ActionPerformed(evt);
             }
         });
-        jMenu7.add(jMenuItem20);
-        jMenu7.add(jSeparator19);
-
-        jMenuItem24.setText("Turno noche");
-        jMenuItem24.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem24ActionPerformed(evt);
-            }
-        });
-        jMenu7.add(jMenuItem24);
-
-        jMenu5.add(jMenu7);
+        jMenu5.add(jMenuItem16);
+        jMenu5.add(jSeparator15);
 
         jMenuBar1.add(jMenu5);
 
@@ -360,134 +335,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
    
     }//GEN-LAST:event_jMenu8MouseClicked
 
-    private void jMenuItem24ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem24ActionPerformed
-        // TODO add your handling code here:
-        Float cont=0f;
-        Float gasto=0f;
-        Float neto=0f;
-        try {
-            ResultSet rsa,rsg;
-            Statement sent = cn.createStatement();
-            rsa = sent.executeQuery("select sum(`detalle_diario_dinero`.`monto_cobrado`) AS `TOTAL` from `detalle_diario_dinero` where ((cast(`detalle_diario_dinero`.`fecha_actual_dinero` as date) = curdate()) and (((hour(`detalle_diario_dinero`.`fecha_actual_dinero`) <= 6) and (hour(`detalle_diario_dinero`.`fecha_actual_dinero`) >= 0)) or ((hour(`detalle_diario_dinero`.`fecha_actual_dinero`) <= 23) and (hour(`detalle_diario_dinero`.`fecha_actual_dinero`) >= 19))))");
-            Statement sentz = cn.createStatement();
-            rsg = sentz.executeQuery("select `cierre_diario`.`gasto_diario` AS `gasto_diario`,`cierre_diario`.`monto_neto` AS `monto_neto` from `cierre_diario` where ((cast(`cierre_diario`.`fecha_actual` as date) = curdate()) and (((hour(`cierre_diario`.`fecha_actual`) <= 7) and (hour(`cierre_diario`.`fecha_actual`) >= 0)) or ((hour(`cierre_diario`.`fecha_actual`) <= 23) and (hour(`cierre_diario`.`fecha_actual`) >= 20))))");
-            while(rsa.next()){
-                cont =Float.parseFloat(rsa.getString("TOTAL"));
-            }
-            while(rsg.next()){
-                gasto =Float.parseFloat(rsg.getString("gasto_diario"));
-                neto =Float.parseFloat(rsg.getString("monto_neto"));
-            }
-        }
-        catch (SQLException ex) {
-            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        JasperReport reporte;
-        try {
-            Map parametro = new HashMap();
-            parametro.put("Suman", cont);
-            parametro.put("Gastosn", gasto);
-            parametro.put("Netog", neto);
-            reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Formulario/cierre_noche.jasper"));
-            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn); //Llenado del Reporte con Tres parametros ubicacion,parametros,conexion a la base de datos
-            JasperViewer viewer = new JasperViewer(jprint,false); //Creamos la vista del Reporte
-            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Le agregamos que se cierre solo el reporte cuando lo cierre el usuario
-            viewer.setVisible(true); //Inicializamos la vista del Reporte//Cargo el reporte al objeto
-        } catch (JRException ex) {
-            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jMenuItem24ActionPerformed
-
-    private void jMenuItem20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem20ActionPerformed
-        // TODO add your handling code here:
-        Float cont1=0f;
-        Float gasto1=0f;
-        Float neto1=0f;
-        try {
-            ResultSet rsa,rsg;
-            Statement sent = cn.createStatement();
-            rsa = sent.executeQuery("select sum(`detalle_diario_dinero`.`monto_cobrado`) AS `TOTAL` from `detalle_diario_dinero` where ((cast(`detalle_diario_dinero`.`fecha_actual_dinero` as date) = curdate()) and (hour(`detalle_diario_dinero`.`fecha_actual_dinero`) >= 7) and (hour(`detalle_diario_dinero`.`fecha_actual_dinero`) <= 18))");
-            Statement sentz = cn.createStatement();
-            rsg = sentz.executeQuery("select `cierre_diario`.`gasto_diario` AS `gasto_diario`,`cierre_diario`.`monto_neto` AS `monto_neto` from `cierre_diario` where ((cast(`cierre_diario`.`fecha_actual` as date) = curdate()) and (hour(`cierre_diario`.`fecha_actual`) >= 8) and (hour(`cierre_diario`.`fecha_actual`) <= 19))");
-            while(rsa.next()){
-                cont1 =Float.parseFloat(rsa.getString("TOTAL"));
-            }
-            while(rsg.next()){
-                gasto1 =Float.parseFloat(rsg.getString("gasto_diario"));
-                neto1 =Float.parseFloat(rsg.getString("monto_neto"));
-            }
-        }
-        catch (SQLException ex) {
-            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        JasperReport reporte;
-        try {
-            Map parametro = new HashMap();
-            parametro.put("Suma", cont1);
-            parametro.put("Gasto", gasto1);
-            parametro.put("Neto", neto1);
-            reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Formulario/cierre_manana.jasper"));
-            JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, cn); //Llenado del Reporte con Tres parametros ubicacion,parametros,conexion a la base de datos
-            JasperViewer viewer = new JasperViewer(jprint,false); //Creamos la vista del Reporte
-            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Le agregamos que se cierre solo el reporte cuando lo cierre el usuario
-            viewer.setVisible(true); //Inicializamos la vista del Reporte//Cargo el reporte al objeto
-        } catch (JRException ex) {
-            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jMenuItem20ActionPerformed
-
-    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
-        // huesped atendido por recepcionista
-        try {
-            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Formulario/usuariohuesped.jasper")); //Cargo el reporte al objeto
-            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, cn); //Llenado del Reporte con Tres parametros ubicacion,parametros,conexion a la base de datos
-            JasperViewer viewer = new JasperViewer(jprint,false); //Creamos la vista del Reporte
-            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Le agregamos que se cierre solo el reporte cuando lo cierre el usuario
-            viewer.setVisible(true); //Inicializamos la vista del Reporte
-        } catch (JRException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jMenuItem15ActionPerformed
-
-    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
-        // top taxistas
-        try {
-            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Formulario/toptaxista.jasper")); //Cargo el reporte al objeto
-            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, cn); //Llenado del Reporte con Tres parametros ubicacion,parametros,conexion a la base de datos
-            JasperViewer viewer = new JasperViewer(jprint,false); //Creamos la vista del Reporte
-            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Le agregamos que se cierre solo el reporte cuando lo cierre el usuario
-            viewer.setVisible(true); //Inicializamos la vista del Reporte
-        } catch (JRException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jMenuItem14ActionPerformed
-
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        // estado habitaciones
-        try {
-            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Formulario/estado_habitacion.jasper")); //Cargo el reporte al objeto
-            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, cn); //Llenado del Reporte con Tres parametros ubicacion,parametros,conexion a la base de datos
-            JasperViewer viewer = new JasperViewer(jprint,false); //Creamos la vista del Reporte
-            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Le agregamos que se cierre solo el reporte cuando lo cierre el usuario
-            viewer.setVisible(true); //Inicializamos la vista del Reporte
-        } catch (JRException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // detalle alquileres
-        try {
-            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Formulario/huespedhabitacion.jasper")); //Cargo el reporte al objeto
-            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, cn); //Llenado del Reporte con Tres parametros ubicacion,parametros,conexion a la base de datos
-            JasperViewer viewer = new JasperViewer(jprint,false); //Creamos la vista del Reporte
-            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Le agregamos que se cierre solo el reporte cuando lo cierre el usuario
-            viewer.setVisible(true); //Inicializamos la vista del Reporte
-        } catch (JRException ex) {
-            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // ventana de productos
         String bandera = productos.bandera_productos; //las banderas verifican si la ventana ya esta abierta
@@ -559,6 +406,62 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
+    private void jMenuItem14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem14ActionPerformed
+
+        try {
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reporte/rptmensual.jasper")); //Cargo el reporte al objeto
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, cn); //Llenado del Reporte con Tres parametros ubicacion,parametros,conexion a la base de datos
+            JasperViewer viewer = new JasperViewer(jprint,false); //Creamos la vista del Reporte
+            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Le agregamos que se cierre solo el reporte cuando lo cierre el usuario
+            viewer.setVisible(true); //Inicializamos la vista del Reporte
+        } catch (JRException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem14ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // estado habitaciones
+        try {
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/rptdiario.jasper")); //Cargo el reporte al objeto
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, cn); //Llenado del Reporte con Tres parametros ubicacion,parametros,conexion a la base de datos
+            JasperViewer viewer = new JasperViewer(jprint,false); //Creamos la vista del Reporte
+            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Le agregamos que se cierre solo el reporte cuando lo cierre el usuario
+            viewer.setVisible(true); //Inicializamos la vista del Reporte
+        } catch (JRException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        // huesped atendido por recepcionista
+        try {
+            JasperReport reporte = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reporte/rptanual.jasper")); //Cargo el reporte al objeto
+            JasperPrint jprint = JasperFillManager.fillReport(reporte, null, cn); //Llenado del Reporte con Tres parametros ubicacion,parametros,conexion a la base de datos
+            JasperViewer viewer = new JasperViewer(jprint,false); //Creamos la vista del Reporte
+            viewer.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Le agregamos que se cierre solo el reporte cuando lo cierre el usuario
+            viewer.setVisible(true); //Inicializamos la vista del Reporte
+        } catch (JRException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        // TODO add your handling code here:
+        String bandera=reporteper.bandera_reporte; //las banderas verifican si la ventana ya esta abierta
+        try{
+            if(bandera==null){    //verificación de la bandera
+                //Si no hay una ventana abierta la abre
+                reporteper a= new reporteper();
+                this.escritorio.add(a);
+                a.setVisible(true);
+            }else{
+                JOptionPane.showMessageDialog(rootPane,"La ventana ya esta abierta!"); //muestra un mensaje si ya esta abierta la ventana
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -602,15 +505,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenu jMenu8;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem14;
     private javax.swing.JMenuItem jMenuItem15;
-    public javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem20;
+    private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem21;
-    private javax.swing.JMenuItem jMenuItem24;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -621,7 +521,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator15;
     private javax.swing.JPopupMenu.Separator jSeparator16;
     private javax.swing.JPopupMenu.Separator jSeparator17;
-    private javax.swing.JPopupMenu.Separator jSeparator19;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar2;
     private jcMousePanel.jcMousePanel jcMousePanel1;
