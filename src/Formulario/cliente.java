@@ -25,7 +25,7 @@ public class cliente extends javax.swing.JInternalFrame {
         java.util.Date fecha = new java.util.Date();
         java.sql.Date fechasq1 = new java.sql.Date(fecha.getTime());
         txtfecha.setMaxSelectableDate(fechasq1);        
-        this.setTitle("Datos de nuevo cliente");
+        this.setTitle("CLIENTE");
         this.setLocation(10, 10);      
         btnguardar.setEnabled(true);
         btnnuevo.setEnabled(true);     

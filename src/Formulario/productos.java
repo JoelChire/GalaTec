@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import ClaseConectar.Conectar;
+import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.HeadlessException;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -47,12 +48,14 @@ public class productos extends javax.swing.JInternalFrame {
     public productos() {
         initComponents();
         this.setLocation(5,5);        
-        this.setTitle("productos");
+        this.setTitle("PRODUCTOS");
+        
         bandera_productos="bandera";
         btneditar.setEnabled(false);
         jPanel1.setOpaque(false);
     }
 
+    
     void limpiar(){
         txtcodigo.setText("");       
         txtnombre.setText("");
